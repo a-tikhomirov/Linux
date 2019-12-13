@@ -39,7 +39,7 @@ lines 1-10/10 (END)
 ~$ sudo vim /etc/ssh/sshd_config
 ```
 
-```vim
+```
 #LoginGraceTime 2m
 #PermitRootLogin prohibit-password
 #StrictModes yes

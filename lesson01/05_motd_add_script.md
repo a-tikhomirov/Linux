@@ -28,7 +28,7 @@ Last login: Fri Dec 13 05:00:22 2019 from 127.0.0.1
 ~ $ sudo vim /usr/bin/ansiweather
 ```
 
-```vim
+```bash
 # Location: example "Rzeszow,PL"
 #[ -z "$location" ] && location=$(get_config "location" || echo "Rzeszow,PL")
 [ -z "$location" ] && location=$(get_config "location" || echo "Moscow")
@@ -43,7 +43,7 @@ Last login: Fri Dec 13 05:00:22 2019 from 127.0.0.1
 ~ $ sudo vim /etc/update-motd.d/60-weatherinfo
 ```
 
-```vim
+```bash
 #!/bin/sh
 #
 #       60-weatherinfo - print the weather info from ansiweather utility
@@ -105,7 +105,7 @@ cbpi@cbpi-VirtualBox:~ $
 ~ $ vim ~/.bashrc
 ```
 
-```vim
+```bash
 #adding landscape-sysinfo and ansiweather as terminal motd
 /usr/share/landscape/landscape-sysinfo.wrapper
 echo

@@ -33,7 +33,7 @@
 ~ $ sudo vim /etc/ssh/sshd_config
 ```
 
-```vim
+```
 #Banner none
 Banner /etc/ssh/sshd-banner
 ```
@@ -74,7 +74,7 @@ cbpi@192.168.41.251's password:
 ~ $ sudo vim /etc/ssh/sshd_config
 ```
 
-```vim
+```
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
 #       X11Forwarding no
