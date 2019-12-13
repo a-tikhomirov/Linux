@@ -5,7 +5,7 @@ task:
 Определяем причину сбоя авторизации с именем root
 Если нам известно время попытки авторизоваться:
 
-```shell
+```ShellSession
 ~$ journalctl --since "2019-12-13 18:00" --unit=ssh -q
 дек 13 18:02:38 cbpi-VirtualBox sshd[2039]: Invalid user \320root from 192.168.41.2 port 60250
 дек 13 18:02:40 cbpi-VirtualBox sshd[2039]: pam_unix(sshd:auth): check pass; user unknown
@@ -22,7 +22,7 @@ lines 1-10/10 (END)
 
 Если нам известен IP адрес:
 
-```shell
+```ShellSession
 ~$ journalctl --unit=ssh -r | grep 192.168.41.2
 дек 13 18:02:58 cbpi-VirtualBox sshd[2039]: Failed password for invalid user \320root from 192.168.41.2 port 60250 ssh2
 дек 13 18:02:52 cbpi-VirtualBox sshd[2039]: Failed password for invalid user \320root from 192.168.41.2 port 60250 ssh2
@@ -35,7 +35,7 @@ lines 1-10/10 (END)
 2:
 Меняем конфигурацию sshd для разрешения авторизации как root:
 
-```shell
+```ShellSession
 ~$ sudo vim /etc/ssh/sshd_config
 ```
 
@@ -50,7 +50,7 @@ PermitRootLogin yes
 
 Перезапускаем sshd:
 
-```shell
+```ShellSession
 ~$ service sshd restart
 ```
 
@@ -81,7 +81,7 @@ root@cbpi-VirtualBox:~#
 
 Проверяем:
 
-```shell
+```ShellSession
 ~$ who
 cbpi     :0           2019-12-13 16:52 (:0)
 root     pts/1        2019-12-13 18:49 (192.168.41.2)
