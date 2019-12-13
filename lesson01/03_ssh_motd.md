@@ -1,4 +1,4 @@
-task:
+**task:**
 Все в Ubuntu хорошо, да вот столько фигни всякой показывает она при подключении по ssh! Нужно бы разобраться, как сделать так, чтобы после подключения по ssh показывались ТОЛЬКО сообщения о дистрибутиве/ядре, состоянии пакетов и Last login. Например:
 
 ```Console
@@ -12,7 +12,7 @@ Last login: Fri Dec 13 04:40:07 2019 from 127.0.0.1
 
 - А теперь сделай так, чтобы для всех пользователей эти сообщения показывались, кроме пользователя **root**.
 
-1:
+**1:**
 Проверяем какие скрипты выполняются для вывода **motd**:
 
 ```ShellSession
@@ -33,7 +33,7 @@ drwxr-xr-x 125 root root 12288 дек 12 21:57 ..
 -rwxr-xr-x   1 root root   144 ноя 12  2018 98-reboot-required
 ```
 
-2:
+**2:**
 Отключаем ненужные скрипты в **/etc/update-motd.d/**:
 
 ```ShellSession
@@ -45,7 +45,7 @@ cbpi@cbpi-VirtualBox:/etc/update-motd.d $ sudo chmod -x 80-livepatch
 cbpi@cbpi-VirtualBox:/etc/update-motd.d $ sudo chmod -x 95-hwe-eol 
 ```
 
-3:
+**3:**
 Проверяем:
 
 ```Console
@@ -60,7 +60,7 @@ Last login: Fri Dec 13 18:49:23 2019 from 192.168.41.2
 root@cbpi-VirtualBox:~#
 ```
 
-4:
+**4:**
 Отключаем **motd** для пользователя **root**:
 
 Создаем пустой файл **.hushlogin** для пользователя **root** и перезапускаем **sshd**:
@@ -75,6 +75,7 @@ root@cbpi-VirtualBox:~# exit
 exit
 ```
 
+**5:**
 Проверяем:
 
 ```Console
