@@ -49,7 +49,7 @@ ansiweather: /usr/share/man/man1/ansiweather.1.gz
 ```
 
 **4:**
-Посмотрим полную информацию о пакетах найденных:
+Посмотрим полную информацию о найденных пакетах:
 
 ```ShellSession
 ~ $ apt show landscape-common -a
