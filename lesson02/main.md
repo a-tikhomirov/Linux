@@ -320,6 +320,15 @@ UUID=874b184d-666d-4171-acf2-4cf2b788c1de none            swap    sw            
 файла с данными, а затем объедините их в один. Просмотрите содержимое созданного
 файла. Переименуйте файл, дав ему новое имя.
 
+Ознакомление с инструментами:
+
+```ShellSession
+~ $ whatis cat
+...
+~ $ man cat
+...
+```
+
 ```ShellSession
 cbpi@cbpi-VirtualBox:~/task2and3 $ cat > file1
 File 1 text here
