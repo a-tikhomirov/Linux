@@ -380,26 +380,28 @@ cbpi@cbpi-VirtualBox:~ $ ls
 для подсчета количества строк можно использовать **wc**).
 
 ```ShellSession
-~ $ ls -lA | grep -v ^и
+~ $ ls -A
 ...
-~ $ ls -lad .!(|.)
+~ $ ls -Ad .!(|.)
 ...
 ~ $ ls -A | grep "^\."
 ...
-~ $ ls -lA | grep -v ^и | wc -l
-43
-~ $ ls -lad .!(|.) | wc -l
-28
+~ $ ls -A | wc -l
+44
+~ $ ls -Ad .!(|.) | wc -l
+29
 ~ $ ls -A | grep "^\." | wc -l
-28
+29
 ~ $ ls | wc -l
 15
-~ $ echo $(ls -lA | grep -v ^и | wc -l) = $(ls -lad .!(|.) | wc -l) + $(ls | wc -l)
-43 = 28 + 15
-~ $ echo $(ls -lA | grep -v ^и | wc -l) = $(($(ls -lad .!(|.) | wc -l) + $(ls | wc -l)))
-43 = 43
+~ $ echo $(ls -A | wc -l) = $(ls -Ad .!(|.) | wc -l) + $(ls | wc -l)
+44 = 29 + 15
+~ $ echo $(ls -A | wc -l) = $(($(ls -Ad .!(|.) | wc -l) + $(ls | wc -l)))
+44 = 44
+~ $ ls -lad .!(|.) | grep -v ^d
+...
 ~ $ ls -lad .!(|.) | grep ^- | wc -l
-17
+18
 ```
 
 **Скрытых файлов (включая директории) в домашнем каталоге: 28**
@@ -410,79 +412,21 @@ cbpi@cbpi-VirtualBox:~ $ ls
 <summary>Результат вывода команд</summary>
   
 ```ShellSession
-cbpi@cbpi-VirtualBox:~ $ ls -lA | grep -v ^и
-drwxr-xr-x  3 cbpi cbpi   4096 дек 13 18:56 .bash
--rw-------  1 cbpi cbpi  26857 дек 17 23:16 .bash_history
--rw-r--r--  1 cbpi cbpi    220 дек 12 01:48 .bash_logout
--rw-r--r--  1 cbpi cbpi   4326 дек 15 21:37 .bashrc
-drwxr-xr-x  2 cbpi cbpi   4096 дек 14 18:26 bin
-drwx------ 20 cbpi cbpi   4096 дек 17 18:01 .cache
-drwx------ 18 cbpi cbpi   4096 дек 16 17:34 .config
-drwx------  3 root root   4096 дек 12 15:42 .dbus
--rw-r--r--  1 cbpi cbpi   8980 дек 12 01:48 examples.desktop
--rw-r--r--  1 cbpi cbpi     27 дек 16 16:04 file2.txt
--rw-r--r--  1 cbpi cbpi     68 дек 13 16:37 .gitconfig
-drwx------  3 cbpi cbpi   4096 дек 14 04:09 .gnupg
--rw-r--r--  1 cbpi cbpi 105658 дек 16 13:17 graph.svf
-drwx------  2 root root   4096 дек 12 15:42 .gvfs
--rw-------  1 cbpi cbpi  18862 дек 18 15:44 .ICEauthority
-drwxr-xr-x  2 cbpi cbpi   4096 дек 14 00:04 .landscape
--rw-------  1 cbpi cbpi     35 дек 16 16:10 .lesshst
-drwx------  3 cbpi cbpi   4096 дек 12 01:52 .local
-drwx------  5 cbpi cbpi   4096 дек 12 01:55 .mozilla
-drwxr-xr-x 21 cbpi cbpi  53248 дек 16 15:46 photos
--rw-r--r--  1 cbpi cbpi    807 дек 12 01:48 .profile
--rw-r--r--  1 cbpi cbpi     72 дек 12 20:30 .selected_editor
-drwxr-xr-x  3 cbpi cbpi   4096 дек 12 13:45 snap
-drwxr-xr-x  2 cbpi cbpi   4096 дек 13 16:43 .ssh
--rw-r--r--  1 cbpi cbpi      0 дек 12 02:02 .sudo_as_admin_successful
--rw-r--r--  1 cbpi cbpi 106992 дек 16 12:44 SystemdAnalyzePlot.svg
-drwx------  6 cbpi cbpi   4096 дек 14 00:11 .thunderbird
--rw-r-----  1 cbpi cbpi      5 дек 18 15:44 .vboxclient-clipboard.pid
--rw-r-----  1 cbpi cbpi      5 дек 18 15:44 .vboxclient-display.pid
--rw-r-----  1 cbpi cbpi      5 дек 18 15:44 .vboxclient-draganddrop.pid
--rw-r-----  1 cbpi cbpi      5 дек 18 15:44 .vboxclient-seamless.pid
--rw-------  1 root root   9015 дек 16 15:50 .viminfo
--rw-------  1 cbpi cbpi      0 дек 16 18:57 .Xauthority
--rw-rw-r--  1 cbpi cbpi    131 дек 17 17:53 .xinputrc
--rw-------  1 cbpi cbpi      0 дек 16 18:56 .xsession-errors
-drwxr-xr-x  2 cbpi cbpi   4096 дек 12 01:52 Видео
-drwxr-xr-x  2 cbpi cbpi   4096 дек 12 01:52 Документы
-drwxr-xr-x  2 cbpi cbpi   4096 дек 12 01:52 Загрузки
-drwxr-xr-x  2 cbpi cbpi   4096 дек 12 02:00 Изображения
-drwxr-xr-x  2 cbpi cbpi   4096 дек 12 01:52 Музыка
-drwxr-xr-x  2 cbpi cbpi   4096 дек 12 01:52 Общедоступные
-drwxr-xr-x  2 cbpi cbpi   4096 дек 12 01:52 Рабочий стол
-drwxr-xr-x  2 cbpi cbpi   4096 дек 12 01:52 Шаблоны
-cbpi@cbpi-VirtualBox:~ $ ls -lad .!(|.)
-drwxr-xr-x  3 cbpi cbpi  4096 дек 13 18:56 .bash
--rw-------  1 cbpi cbpi 26857 дек 17 23:16 .bash_history
--rw-r--r--  1 cbpi cbpi   220 дек 12 01:48 .bash_logout
--rw-r--r--  1 cbpi cbpi  4326 дек 15 21:37 .bashrc
-drwx------ 20 cbpi cbpi  4096 дек 17 18:01 .cache
-drwx------ 18 cbpi cbpi  4096 дек 16 17:34 .config
-drwx------  3 root root  4096 дек 12 15:42 .dbus
--rw-r--r--  1 cbpi cbpi    68 дек 13 16:37 .gitconfig
-drwx------  3 cbpi cbpi  4096 дек 14 04:09 .gnupg
-drwx------  2 root root  4096 дек 12 15:42 .gvfs
--rw-------  1 cbpi cbpi 18862 дек 18 15:44 .ICEauthority
-drwxr-xr-x  2 cbpi cbpi  4096 дек 14 00:04 .landscape
--rw-------  1 cbpi cbpi    35 дек 16 16:10 .lesshst
-drwx------  3 cbpi cbpi  4096 дек 12 01:52 .local
-drwx------  5 cbpi cbpi  4096 дек 12 01:55 .mozilla
--rw-r--r--  1 cbpi cbpi   807 дек 12 01:48 .profile
--rw-r--r--  1 cbpi cbpi    72 дек 12 20:30 .selected_editor
-drwxr-xr-x  2 cbpi cbpi  4096 дек 13 16:43 .ssh
--rw-r--r--  1 cbpi cbpi     0 дек 12 02:02 .sudo_as_admin_successful
-drwx------  6 cbpi cbpi  4096 дек 14 00:11 .thunderbird
--rw-r-----  1 cbpi cbpi     5 дек 18 15:44 .vboxclient-clipboard.pid
--rw-r-----  1 cbpi cbpi     5 дек 18 15:44 .vboxclient-display.pid
--rw-r-----  1 cbpi cbpi     5 дек 18 15:44 .vboxclient-draganddrop.pid
--rw-r-----  1 cbpi cbpi     5 дек 18 15:44 .vboxclient-seamless.pid
--rw-------  1 root root  9015 дек 16 15:50 .viminfo
--rw-------  1 cbpi cbpi     0 дек 16 18:57 .Xauthority
--rw-rw-r--  1 cbpi cbpi   131 дек 17 17:53 .xinputrc
--rw-------  1 cbpi cbpi     0 дек 16 18:56 .xsession-errors
+cbpi@cbpi-VirtualBox:~ $ ls -A
+ .bash           divider            .landscape         .sudo_as_admin_successful     .viminfo           Музыка
+ .bash_history   divider.c          .lesshst           .swp                          .Xauthority        Общедоступные
+ .bash_logout    examples.desktop   .local             SystemdAnalyzePlot.svg        .xinputrc         'Рабочий стол'
+ .bashrc         .gitconfig         .mozilla           .thunderbird                  .xsession-errors   Шаблоны
+ bin             .gnupg             photos             .vboxclient-clipboard.pid     Видео
+ .cache          graph.svf          .profile           .vboxclient-display.pid       Документы
+ .config         .gvfs              .selected_editor   .vboxclient-draganddrop.pid   Загрузки
+ .dbus           .ICEauthority      .ssh               .vboxclient-seamless.pid      Изображения
+cbpi@cbpi-VirtualBox:~ $ ls -Ad .!(|.)
+.bash          .config     .ICEauthority  .profile                   .thunderbird                 .viminfo
+.bash_history  .dbus       .landscape     .selected_editor           .vboxclient-clipboard.pid    .Xauthority
+.bash_logout   .gitconfig  .lesshst       .ssh                       .vboxclient-display.pid      .xinputrc
+.bashrc        .gnupg      .local         .sudo_as_admin_successful  .vboxclient-draganddrop.pid  .xsession-errors
+.cache         .gvfs       .mozilla       .swp                       .vboxclient-seamless.pid
 cbpi@cbpi-VirtualBox:~ $ ls -A | grep "^\."
 .bash
 .bash_history
@@ -503,6 +447,7 @@ cbpi@cbpi-VirtualBox:~ $ ls -A | grep "^\."
 .selected_editor
 .ssh
 .sudo_as_admin_successful
+.swp
 .thunderbird
 .vboxclient-clipboard.pid
 .vboxclient-display.pid
@@ -512,7 +457,39 @@ cbpi@cbpi-VirtualBox:~ $ ls -A | grep "^\."
 .Xauthority
 .xinputrc
 .xsession-errors
-...
+cbpi@cbpi-VirtualBox:~ $ ls -A | wc -l
+44
+cbpi@cbpi-VirtualBox:~ $ ls -Ad .!(|.) | wc -l
+29
+cbpi@cbpi-VirtualBox:~ $ ls -A | grep "^\." | wc -l
+29
+cbpi@cbpi-VirtualBox:~ $ ls | wc -l
+15
+cbpi@cbpi-VirtualBox:~ $ echo $(ls -A | wc -l) = $(ls -Ad .!(|.) | wc -l) + $(ls | wc -l)
+44 = 29 + 15
+cbpi@cbpi-VirtualBox:~ $ echo $(ls -A | wc -l) = $(($(ls -Ad .!(|.) | wc -l) + $(ls | wc -l)))
+44 = 44
+cbpi@cbpi-VirtualBox:~ $ ls -lad .!(|.) | grep -v ^d
+-rw-------  1 cbpi cbpi 36536 дек 19 17:45 .bash_history
+-rw-r--r--  1 cbpi cbpi   220 дек 12 01:48 .bash_logout
+-rw-r--r--  1 cbpi cbpi  4326 дек 15 21:37 .bashrc
+-rw-r--r--  1 cbpi cbpi    68 дек 13 16:37 .gitconfig
+-rw-------  1 cbpi cbpi 18862 дек 19 13:54 .ICEauthority
+-rw-------  1 cbpi cbpi    35 дек 16 16:10 .lesshst
+-rw-r--r--  1 cbpi cbpi   807 дек 12 01:48 .profile
+-rw-r--r--  1 cbpi cbpi    72 дек 12 20:30 .selected_editor
+-rw-r--r--  1 cbpi cbpi     0 дек 12 02:02 .sudo_as_admin_successful
+-rw-------  1 cbpi cbpi 36864 дек 18 22:58 .swp
+-rw-r-----  1 cbpi cbpi     5 дек 19 13:54 .vboxclient-clipboard.pid
+-rw-r-----  1 cbpi cbpi     5 дек 19 13:54 .vboxclient-display.pid
+-rw-r-----  1 cbpi cbpi     5 дек 19 13:54 .vboxclient-draganddrop.pid
+-rw-r-----  1 cbpi cbpi     5 дек 19 13:54 .vboxclient-seamless.pid
+-rw-------  1 root root  9015 дек 16 15:50 .viminfo
+-rw-------  1 cbpi cbpi     0 дек 16 18:57 .Xauthority
+-rw-rw-r--  1 cbpi cbpi   131 дек 17 17:53 .xinputrc
+-rw-------  1 cbpi cbpi     0 дек 16 18:56 .xsession-errors
+cbpi@cbpi-VirtualBox:~ $ ls -lad .!(|.) | grep -v ^d | wc -l
+18
 ```
   
 </details>
