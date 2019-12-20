@@ -571,12 +571,10 @@ cbpi@cbpi-VirtualBox:~ $ mc
 Другой терминал, отправляем сигнал **1 (SIGHUP)**:
 
 ```ShellSession
-cbpi@cbpi-VirtualBox:~ $ ps aux | grep mc
-cbpi      6902  0.0  0.0  76488 10040 pts/0    S+   19:26   0:00 mc
-cbpi      7353  0.0  0.0  21532  1036 pts/2    S+   19:27   0:00 grep --color=auto mc
-cbpi@cbpi-VirtualBox:~ $ kill -1 6902
-cbpi@cbpi-VirtualBox:~ $ ps aux | grep mc
-cbpi      7378  0.0  0.0  21532  1048 pts/2    S+   19:28   0:00 grep --color=auto mc
+cbpi@cbpi-VirtualBox:~ $ ps aux | grep [m]c
+cbpi      2709  0.0  0.0  76492  9856 pts/0    S+   12:57   0:00 mc
+cbpi@cbpi-VirtualBox:~ $ kill -1 2709
+cbpi@cbpi-VirtualBox:~ $ ps aux | grep [m]c
 ```
 
 Приложение **mc** было проинформировано о якобы завершении родительского процесса (терминала) и завершило свою работу, в первом терминале отобразилась информация:
@@ -593,9 +591,7 @@ cbpi      7378  0.0  0.0  21532  1048 pts/2    S+   19:28   0:00 grep --color=au
 Первый терминал:
 
 ```ShellSession
-cbpi@cbpi-VirtualBox:~ $ ls
- bin                graph.svf   snap                     Видео       Загрузки      Музыка         'Рабочий стол'
- examples.desktop   photos      SystemdAnalyzePlot.svg   Документы   Изображения   Общедоступные   Шаблоны
+cbpi@cbpi-VirtualBox:~ $ ls | grep sig
 cbpi@cbpi-VirtualBox:~ $ cat > sigintTest
 testing SIGINT...
 ```
@@ -603,27 +599,28 @@ testing SIGINT...
 Другой терминал, отправляем сигнал **2 (SIGINT)**:
 
 ```ShellSession
-cbpi@cbpi-VirtualBox:~ $ ps aux | grep bash
-cbpi      8269  0.0  0.0  30080  5540 pts/0    Ss   19:44   0:00 bash
-cbpi      8728  0.0  0.0  29948  5352 pts/2    Ss   19:45   0:00 bash
-cbpi      9414  0.0  0.0  21532  1088 pts/2    S+   20:32   0:00 grep --color=auto bash
+bpi@cbpi-VirtualBox:~ $ ps aux | grep [b]ash
+cbpi      3421  0.0  0.0  30080  5504 pts/0    Ss   13:00   0:00 bash
+cbpi      3660  0.1  0.0  29948  5356 pts/1    Ss   13:01   0:00 bash
 cbpi@cbpi-VirtualBox:~ $ echo $$
-8728
-cbpi@cbpi-VirtualBox:~ $ pstree -p 8269
-bash(8269)───cat(9407)
-cbpi@cbpi-VirtualBox:~ $ kill -2 9407
+3660
+cbpi@cbpi-VirtualBox:~ $ pstree -p 3421
+bash(3421)───cat(3648)
+cbpi@cbpi-VirtualBox:~ $ kill -2 3648
+cbpi@cbpi-VirtualBox:~ $ pstree -p 3421
+bash(3421)
 ```
 
-Дочернему процессу **cat** родительского процеса **bash** был отправлен сигнал остановки, приложение **cat** завершилось, был создан пустой файл **sigintTest**: 
+Дочернему процессу **cat** родительского процеса **bash** был отправлен сигнал остановки, приложение **cat** завершилось, вводимый текст остался на экране, был создан пустой файл **sigintTest**: 
 
 Первый терминал:
 
 ```ShellSession
-cbpi@cbpi-VirtualBox:~ $ testing SIGINT...
-cbpi@cbpi-VirtualBox:~ $ ls
- bin                graph.svf   sigintTest   SystemdAnalyzePlot.svg   Документы   Изображения   Общедоступные   Шаблоны
- examples.desktop   photos      snap         Видео                    Загрузки    Музыка       'Рабочий стол'
-cbpi@cbpi-VirtualBox:~ $ cat sigintTest 
+cbpi@cbpi-VirtualBox:~ $ cat > sigintTest
+Testing SIGIINT...
+cbpi@cbpi-VirtualBox:~ $ Testing SIGIINT...^C
+cbpi@cbpi-VirtualBox:~ $ ls | grep sig
+sigintTest
 ```
 
 </details>
@@ -636,16 +633,20 @@ cbpi@cbpi-VirtualBox:~ $ cat sigintTest
 Первый терминал:
 
 ```ShellSession
-cbpi@cbpi-VirtualBox:~ $ gnome-calculator
+cbpi@cbpi-VirtualBox:~ $ gnome-calculator &
+[1] 4618
 ```
 
 Другой терминал, отправляем сигнал **8 (SIGFPE)**:
 
 ```ShellSession
-cbpi@cbpi-VirtualBox:~ $ ps aux | grep gnome-calc
-cbpi      2893  4.9  0.2 864244 40512 pts/0    Sl+  13:56   0:01 /snap/gnome-calculator/544/usr/bin/gnome-calculator
-cbpi      3343  0.0  0.0  21532  1088 pts/1    S+   13:57   0:00 grep --color=auto gnome-calc
-cbpi@cbpi-VirtualBox:~ $ kill -8 11420
+cbpi@cbpi-VirtualBox:~ $ ps aux | grep [g]nome-calc
+cbpi      4618  3.4  0.2 798656 40972 pts/0    Sl   13:14   0:00 /snap/gnome-calculator/544/usr/bin/gnome-calculator
+cbpi@cbpi-VirtualBox:~ $ ps -o ppid= 4618 | xargs pstree -p
+bash(3421)───gnome-calculato(4618)─┬─{gnome-calculato}(4683)
+                                   ├─{gnome-calculato}(4684)
+                                   └─{gnome-calculato}(4685)
+cbpi@cbpi-VirtualBox:~ $ kill -8 4618
 ```
 
 Процессу **gnome-calculato** был отправлен сигнал **SIGFPE**, приложение **gnome-calculato** предположительно сохранило дамп памяти (**как это проверить?**) и завершило свою работу, в первом терминале было отображено сообщение об исключении: 
@@ -653,8 +654,9 @@ cbpi@cbpi-VirtualBox:~ $ kill -8 11420
 Первый терминал:
 
 ```ShellSession
-bpi@cbpi-VirtualBox:~ $ gnome-calculator 
-Исключение в операции с плавающей точкой (стек памяти сброшен на диск)
+cbpi@cbpi-VirtualBox:~ $ fg
+bash: fg: выполнение задания прервано
+[1]+  Исключение в операции с плавающей точкой                                                   (стек памяти сброшен на диск) gnome-calculator
 ```
 
 - Вариант 2.
@@ -724,19 +726,23 @@ Testing SIGKILL...
 Другой терминал, отправляем сигнал **9 (SIGKILL)**:
 
 ```ShellSession
-cbpi@cbpi-VirtualBox:~ $ ps aux | grep vim
-cbpi      4160  0.1  0.0  62680  9464 pts/0    S+   14:08   0:00 vim sigKillTest
-cbpi      4162  0.0  0.0  21532  1100 pts/1    S+   14:09   0:00 grep --color=auto vim
-cbpi@cbpi-VirtualBox:~ $ kill -9 12019
+bpi@cbpi-VirtualBox:~ $ ps aux | grep [v]im
+cbpi      4743  0.1  0.0  62680  9348 pts/0    S+   13:17   0:00 vim sgkillTest
+cbpi@cbpi-VirtualBox:~ $ ps -o ppid= 4743 | xargs pstree -p
+bash(3421)───vim(4743)
+cbpi@cbpi-VirtualBox:~ $ kill -9 4743
+cbpi@cbpi-VirtualBox:~ $  pstree -p 3421
+bash(3421)
 ```
 
-Процессу **vim** был отправлен сигнал безусловного завершения работы, приложение **vim** было немедленно завершено, в первом терминале было отображено соответствующее сообщение, однако из-за немедленного завершения (т.к. данный сигнал не обрабатывается программой) остался небольшой баг отображения интерфейса **vim** в терминале: 
+Процессу **vim** был отправлен сигнал безусловного завершения работы, приложение **vim** было немедленно завершено, в первом терминале было отображено соответствующее сообщение, однако из-за немедленного завершения (т.к. данный сигнал не обрабатывается программой) остался баг отображения интерфейса **vim** в терминале: 
 
 Первый терминал:
 
 ```ShellSession
 Testing SIGKILL...Убито
 cbpi@cbpi-VirtualBox:~ $
+~
 ~
 ~
 ~
@@ -756,11 +762,19 @@ cbpi@cbpi-VirtualBox:~ $ sol
 Другой терминал, отправляем сигнал **11 (SIGSEGV)**:
 
 ```ShellSession
-cbpi@cbpi-VirtualBox:~ $ ps aux | grep sol
-systemd+   494  0.0  0.0  70892  6132 ?        Ss   13:54   0:00 /lib/systemd/systemd-resolved
-cbpi      4324  0.6  0.2 526184 43008 pts/0    Sl+  14:22   0:00 sol
-cbpi      4335  0.0  0.0  21532  1096 pts/1    S+   14:23   0:00 grep --color=auto sol
-cbpi@cbpi-VirtualBox:~ $ kill -11 4324
+cbpi@cbpi-VirtualBox:~ $ ps aux | grep [s]ol
+systemd+   500  0.0  0.0  70888  6408 ?        Ss   12:57   0:00 /lib/systemd/systemd-resolved
+cbpi      4806  1.3  0.2 526176 42884 pts/0    Sl+  13:26   0:00 sol
+cbpi@cbpi-VirtualBox:~ $ ps -o ppid= 4806 | xargs pstree -p
+bash(3421)───sol(4806)─┬─{sol}(4807)
+                       ├─{sol}(4808)
+                       ├─{sol}(4809)
+                       ├─{sol}(4810)
+                       ├─{sol}(4811)
+                       └─{sol}(4812)
+cbpi@cbpi-VirtualBox:~ $ kill -11 4806
+cbpi@cbpi-VirtualBox:~ $ pstree -p 3421
+bash(3421)
 ```
 
 Процессу **sol** был отправлен сигнал ошибки сегметирования (якобы программа обратилась к не принадлежащей ей
@@ -805,22 +819,26 @@ Testing SIGKILL...
 Другой терминал, отправляем сигнал **15 (SIGTERM)**:
 
 ```ShellSession
-cbpi@cbpi-VirtualBox:~ $ ps aux | grep vim
-cbpi      4246  0.0  0.0  62680  9496 pts/0    S+   14:14   0:00 vim sigKillTest
-cbpi      4260  0.0  0.0  21532  1088 pts/1    S+   14:15   0:00 grep --color=auto vim
-cbpi@cbpi-VirtualBox:~ $ kill -15 4246
+cbpi@cbpi-VirtualBox:~ $ ps aux | grep [v]im
+cbpi      5820  0.0  0.0  62680  9372 pts/0    S+   13:29   0:00 vim sigkillTest
+cbpi@cbpi-VirtualBox:~ $ ps -o ppid= 5820 | xargs pstree -p
+bash(3421)───vim(5820)
+cbpi@cbpi-VirtualBox:~ $ kill 5820
+cbpi@cbpi-VirtualBox:~ $ pstree -p 3421
+bash(3421)
 ```
 
-Gроцессу **vim** был отправлен сигнал запроса завершения работы, приложение **vim** завершило свою работу в нормальном режиме (благодаря предусмотренному в программе обработчику данного сигнала), в первом терминале было отображено соответствующее сообщение: 
+Процессу **vim** был отправлен сигнал запроса завершения работы, приложение **vim** завершило свою работу в нормальном режиме (благодаря предусмотренному в программе обработчику данного сигнала), в первом терминале было отображено соответствующее сообщение: 
 
 Первый терминал:
 
 ```ShellSession
-cbpi@cbpi-VirtualBox:~ $ vim sigKillTest
+cbpi@cbpi-VirtualBox:~ $ vim sgkillTest
 Vim: Caught deadly signal TERM
 Vim: preserving files...
 Vim: Finished.
 Завершено
+cbpi@cbpi-VirtualBox:~ $ 
 ```
 
 </details>
