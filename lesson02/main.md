@@ -405,9 +405,9 @@ cbpi@cbpi-VirtualBox:~ $ ls
 ~ $ ls | wc -l
 17
 ~ $ echo $(ls -A | wc -l) = $(ls -Ad .!(|.) | wc -l) + $(ls | wc -l)
-44 = 29 + 15
+46 = 29 + 17
 ~ $ echo $(ls -A | wc -l) = $(($(ls -Ad .!(|.) | wc -l) + $(ls | wc -l)))
-44 = 44
+46 = 46
 ~ $ ls -ld .!(|.) | grep -v ^d
 ...
 ~ $ ls -ld .!(|.) | grep ^- | wc -l
