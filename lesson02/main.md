@@ -392,7 +392,7 @@ cbpi@cbpi-VirtualBox:~ $ ls
 ```ShellSession
 ~ $ ls -A
 ...
-~ $ ls -Ad .!(|.)
+~ $ ls -d .!(|.)
 ...
 ~ $ ls -A | grep "^\."
 ...
@@ -469,7 +469,7 @@ cbpi@cbpi-VirtualBox:~ $ ls -A | grep "^\."
 .xsession-errors
 cbpi@cbpi-VirtualBox:~ $ ls -A | wc -l
 46
-cbpi@cbpi-VirtualBox:~ $ ls -Ad .!(|.) | wc -l
+cbpi@cbpi-VirtualBox:~ $ ls -d .!(|.) | wc -l
 29
 cbpi@cbpi-VirtualBox:~ $ ls -A | grep "^\." | wc -l
 29
@@ -509,6 +509,8 @@ cbpi@cbpi-VirtualBox:~ $ ls -ld .!(|.) | grep -v ^d | wc -l
 отдельный файл в вашей домашней директории. Сколько файлов, которые не удалось
 посмотреть, оказалось в списке?
 
+- Вариант 1
+
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $ cat /etc/* 2> ~/catErrOut | tail
 # installation of packages available from the repository
@@ -522,9 +524,9 @@ if [[ -x /usr/lib/command-not-found ]] ; then
 	fi
 fi
 cbpi@cbpi-VirtualBox:~ $ cat catErrOut | wc -l
-135
+138
 cbpi@cbpi-VirtualBox:~ $ cat catErrOut | grep каталог | wc -l
-129
+132
 cbpi@cbpi-VirtualBox:~ $ cat catErrOut | grep -v каталог
 cat: /etc/brlapi.key: Отказано в доступе
 cat: /etc/gshadow: Отказано в доступе
@@ -555,11 +557,44 @@ cat: /etc/.sudoers.swp: Отказано в доступе
 cbpi@cbpi-VirtualBox:~ $ GLOBIGNORE=
 ```
 
-**Не удалось прочитать файлов (по причине: "Это каталог"): 129**
+**Не удалось прочитать файлов (по причине: "Это каталог"): 132**
 
 **Не удалось прочитать файлов (по причине: "Отказано в доступе"): 6**
 
 **Не удалось прочитать скрытых файлов (по причине: "Отказано в доступе"): 2**
+
+- Вариант 2
+
+```ShellSession
+cbpi@cbpi-VirtualBox:~ $ shopt -s dotglob nullglob 
+cbpi@cbpi-VirtualBox:~ $ cat /etc/* 2> ~/catErrOut | tail -5
+			[[ -x /usr/lib/command-not-found ]] || return 1
+			/usr/lib/command-not-found --no-failure-msg -- ${1+"$1"} && :
+		}
+	fi
+fi
+cbpi@cbpi-VirtualBox:~ $ cat catErrOut | wc -l
+140
+cbpi@cbpi-VirtualBox:~ $ cat catErrOut | cut -d" " -f3- | sort | uniq
+Отказано в доступе
+Это каталог
+cbpi@cbpi-VirtualBox:~ $ cat catErrOut | grep каталог | wc -l
+132
+cbpi@cbpi-VirtualBox:~ $ cat catErrOut | grep доступ | wc -l
+8
+cbpi@cbpi-VirtualBox:~ $ cat catErrOut | grep "/\."
+cat: /etc/.pwd.lock: Отказано в доступе
+cat: /etc/.sudoers.swp: Отказано в доступе
+cbpi@cbpi-VirtualBox:~ $ shopt -u dotglob nullglob
+```
+
+**Не удалось прочитать файлов всего: 140**
+
+**Не удалось прочитать файлов (по причине: "Это каталог"): 132**
+
+**Не удалось прочитать файлов (по причине: "Отказано в доступе"): 8**
+
+**Из них - не удалось прочитать скрытых файлов (по причине: "Отказано в доступе"): 2**
 
 # **task 6:**
 Запустить в одном терминале программу, в другом терминале посмотреть **PID** процесса и
@@ -648,14 +683,18 @@ cbpi@cbpi-VirtualBox:~ $ gnome-calculator &
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $ ps aux | grep [g]nome-calc
 cbpi      4618  3.4  0.2 798656 40972 pts/0    Sl   13:14   0:00 /snap/gnome-calculator/544/usr/bin/gnome-calculator
-cbpi@cbpi-VirtualBox:~ $ ps -o ppid= 4618 | xargs pstree -p
-bash(3421)───gnome-calculato(4618)─┬─{gnome-calculato}(4683)
-                                   ├─{gnome-calculato}(4684)
-                                   └─{gnome-calculato}(4685)
-cbpi@cbpi-VirtualBox:~ $ kill -8 4618
+cbpi@cbpi-VirtualBox:~ $ ps -o ppid= 6444 | xargs pstree -p
+bash(5410)───gnome-calculato(6444)─┬─{gnome-calculato}(6626)
+                                   ├─{gnome-calculato}(6627)
+                                   └─{gnome-calculato}(6628)
+cbpi@cbpi-VirtualBox:~ $ kill -8 6444
+cbpi@cbpi-VirtualBox:~ $ pstree -p 5410
+bash(5410)
+cbpi@cbpi-VirtualBox:~ $ cat /var/log/apport.log
+ERROR: apport (pid 6652) Mon Dec 23 15:10:39 2019: host pid 6444 crashed in a separate mount namespace, ignoring
 ```
 
-Процессу **gnome-calculato** был отправлен сигнал **SIGFPE**, приложение **gnome-calculato** предположительно сохранило дамп памяти (**как это проверить?**) и завершило свою работу, в первом терминале было отображено сообщение об исключении: 
+Процессу **gnome-calculato** был отправлен сигнал **SIGFPE**, приложение **gnome-calculato** дамп памяти был передан в систему **Apport** и экстренно завершило свою работу, системой **Apport** был проанализирован краш программы, в результате чего было решено не записывать дамп памяти. В первом терминале было отображено сообщение об исключении: 
 
 Первый терминал:
 
@@ -666,6 +705,58 @@ bash: fg: выполнение задания прервано
 ```
 
 - Вариант 2.
+
+Первый терминал:
+
+```ShellSession
+cbpi@cbpi-VirtualBox:~ $ bc
+bc 1.07.1
+Copyright 1991-1994, 1997, 1998, 2000, 2004, 2006, 2008, 2012-2017 Free Software Foundation, Inc.
+This is free software with ABSOLUTELY NO WARRANTY.
+For details type `warranty'. 
+```
+
+Другой терминал, отправляем сигнал **8 (SIGFPE)**:
+
+```ShellSession
+cbpi@cbpi-VirtualBox:~ $ ps aux | grep [b]c
+cbpi      6697  0.0  0.0  19328  2732 pts/0    S+   15:14   0:00 bc
+cbpi@cbpi-VirtualBox:~ $ ps -o ppid= 6697 | xargs pstree -p
+bash(5410)───bc(6697)
+cbpi@cbpi-VirtualBox:~ $ kill -8 6697
+cbpi@cbpi-VirtualBox:~ $ pstree -p 5410
+bash(5410)
+cbpi@cbpi-VirtualBox:~ $ cat /var/log/apport.log
+ERROR: apport (pid 6652) Mon Dec 23 15:10:39 2019: host pid 6444 crashed in a separate mount namespace, ignoring
+ERROR: apport (pid 6714) Mon Dec 23 15:16:20 2019: called for pid 6697, signal 8, core limit 0, dump mode 1
+ERROR: apport (pid 6714) Mon Dec 23 15:16:20 2019: executable: /usr/bin/bc (command line "bc")
+ERROR: apport (pid 6714) Mon Dec 23 15:16:20 2019: debug: session gdbus call: (true,)
+
+ERROR: apport (pid 6714) Mon Dec 23 15:16:20 2019: wrote report /var/crash/_usr_bin_bc.1000.crash
+cbpi@cbpi-VirtualBox:~ $ head -10 /var/crash/_usr_bin_bc.1000.crash 
+ProblemType: Crash
+Architecture: amd64
+CurrentDesktop: ubuntu:GNOME
+Date: Mon Dec 23 15:16:20 2019
+DistroRelease: Ubuntu 18.04
+ExecutablePath: /usr/bin/bc
+ExecutableTimestamp: 1521735634
+ProcCmdline: bc
+ProcCwd: /home/cbpi
+ProcEnviron:
+```
+
+Процессу **bc** был отправлен сигнал **SIGFPE**, приложение **bc** дамп памяти был передан в систему **Apport** и завершило свою работу, системой **Apport** был проанализирован краш программы, в результате чего был записан дамп памяти в **/var/crash/_usr_bin_bc.1000.crash**. В первом терминале было отображено сообщение об исключении: 
+
+Первый терминал:
+
+```ShellSession
+For details type `warranty'.
+Исключение в операции с плавающей точкой (стек памяти сброшен на диск)
+cbpi@cbpi-VirtualBox:~ $ 
+```
+
+- Вариант 3.
 
 Напишем небольшую программу на **C** (скрипт bash не подойдет, т.к. там собственный обработчик деления на ноль).
 
@@ -680,15 +771,28 @@ cbpi@cbpi-VirtualBox:~ $ vim divider.c
 #include <stdlib.h>
 
 void signal_handler (int signo) {
-    if(signo == SIGFPE) {
-        printf("Caught FPE\n");
-        exit(-1);
+    switch (signo)
+    {
+        case SIGFPE:
+            printf("Caught FPE\n");
+            exit(-1);
+            break;
+        case SIGSEGV:
+            printf("Caught segmentation error\n");
+            exit(-1);
+            break;
     }
 }
 
 int main(int argc, char *argv[])
 {
     signal(SIGFPE,(*signal_handler));
+    signal(SIGSEGV,(*signal_handler));
+
+    if(argc!=3){
+        printf("Two digit arguments must be passed\n");
+        return 1;
+    }
 
     int value = atoi(argv[1]);
     int divider = atoi(argv[2]);
@@ -769,22 +873,39 @@ cbpi@cbpi-VirtualBox:~ $ sol
 
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $ ps aux | grep [s]ol
-systemd+   500  0.0  0.0  70888  6408 ?        Ss   12:57   0:00 /lib/systemd/systemd-resolved
-cbpi      4806  1.3  0.2 526176 42884 pts/0    Sl+  13:26   0:00 sol
-cbpi@cbpi-VirtualBox:~ $ ps -o ppid= 4806 | xargs pstree -p
-bash(3421)───sol(4806)─┬─{sol}(4807)
-                       ├─{sol}(4808)
-                       ├─{sol}(4809)
-                       ├─{sol}(4810)
-                       ├─{sol}(4811)
-                       └─{sol}(4812)
-cbpi@cbpi-VirtualBox:~ $ kill -11 4806
-cbpi@cbpi-VirtualBox:~ $ pstree -p 3421
-bash(3421)
+systemd+   468  0.0  0.0  71020  6520 ?        Ss   11:17   0:00 /lib/systemd/systemd-resolved
+cbpi      7481  0.6  0.2 526372 43204 pts/0    Sl+  16:18   0:00 sol
+cbpi@cbpi-VirtualBox:~ $ ps -o ppid= 7481 | xargs pstree -p
+bash(5410)───sol(7481)─┬─{sol}(7482)
+                       ├─{sol}(7483)
+                       ├─{sol}(7484)
+                       ├─{sol}(7485)
+                       ├─{sol}(7486)
+                       └─{sol}(7487)
+cbpi@cbpi-VirtualBox:~ $ kill -11 7481
+cbpi@cbpi-VirtualBox:~ $ pstree -p 5410
+bash(5410)
+cbpi@cbpi-VirtualBox:~ $ tail -5 /var/log/apport.log
+ERROR: apport (pid 7514) Mon Dec 23 16:19:56 2019: called for pid 7481, signal 11, core limit 0, dump mode 1
+ERROR: apport (pid 7514) Mon Dec 23 16:19:56 2019: executable: /usr/games/sol (command line "sol")
+ERROR: apport (pid 7514) Mon Dec 23 16:19:56 2019: debug: session gdbus call: (true,)
+
+ERROR: apport (pid 7514) Mon Dec 23 16:19:58 2019: wrote report /var/crash/_usr_games_sol.1000.crash
+cbpi@cbpi-VirtualBox:~ $ head -10 /var/crash/_usr_games_sol.1000.crash
+ProblemType: Crash
+Architecture: amd64
+CurrentDesktop: ubuntu:GNOME
+Date: Mon Dec 23 16:19:56 2019
+DistroRelease: Ubuntu 18.04
+ExecutablePath: /usr/games/sol
+ExecutableTimestamp: 1520891432
+ProcCmdline: sol
+ProcCwd: /home/cbpi
+ProcEnviron:
 ```
 
 Процессу **sol** был отправлен сигнал ошибки сегметирования (якобы программа обратилась к не принадлежащей ей
-области памяти), приложение **sol** предположительно сохранило дамп памяти (**как это проверить?**) и завершило свою работу, в первом терминале было отображено соответствующее сообщение: 
+области памяти), приложение **sol** пдамп памяти был передан в систему **Apport** и завершило свою работу, системой **Apport** был проанализирован краш программы, в результате чего был записан дамп памяти в **/var/crash/_usr_games_sol.1000.crash**. В первом терминале было отображено соответствующее сообщение: 
 
 Первый терминал:
 
@@ -945,6 +1066,7 @@ cbpi@cbpi-VirtualBox:~/task8 $ ls ./*
 cbpi@cbpi-VirtualBox:~/task8 $ vim filesToDirs.sh
 ```
 
+- Вариант 1
 ```sh
 #!/bin/bash
 for i in $(ls -Ad ./*/ | cut -d/ -f2)
@@ -963,6 +1085,29 @@ do
             do
                 echo File $i$j$day$l text here > $i/$j/$i$j$day$l.txt
             done
+        done
+    done
+done
+```
+
+- Вариант 2:
+```sh
+#!/bin/bash
+for path in $(find -mindepth 2 -type d)
+do
+    year=$(echo $path | cut -d/ -f2)
+    month=$(echo $path | cut -d/ -f3)
+    days=$(date -d "$month/01/$year +1month -1day" +%d)
+    for k in $(seq 1 $days)
+    do
+        if [ $k -lt 10 ]; then
+            day=0$k
+        else
+            day=$k
+        fi
+        for i in {01..05}
+        do
+            echo File $year$month$day$i text here > $path/$year$month$day$i.txt
         done
     done
 done
