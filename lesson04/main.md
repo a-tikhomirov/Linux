@@ -105,7 +105,7 @@ ip:87.228.94.66
    - Проверка с помощью **sed** (POSIX):
 
 ```ShellSession
-cbpi@vault_rpi:~/geekbrains/linux/l4$ cat ipCheck | tr ' ' '\n' | sed -nE 's/(^|^.*[=: ])(((25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2}))$/\2/p'
+cbpi@vault_rpi:~/geekbrains/linux/l4$ cat ipCheck | tr ' ' '\n' | sed -nE 's/(^|^.*[=:])(((25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2}))$/\2/p'
 192.168.1.1
 192.168.1.2
 192.168.1.3
@@ -124,7 +124,7 @@ cbpi@vault_rpi:~/geekbrains/linux/l4$ cat ipCheck | tr ' ' '\n' | sed -nE 's/(^|
 
 ```ShellSession
 cbpi@vault_rpi:~/geekbrains/linux/l4$ okt="(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})"
-cbpi@vault_rpi:~/geekbrains/linux/l4$ cat ipCheck | tr ' ' '\n' | sed -nE "s/(^|^.*[=: ])((${okt}\.){3}${okt})$/\2/p"         
+cbpi@vault_rpi:~/geekbrains/linux/l4$ cat ipCheck | tr ' ' '\n' | sed -nE "s/(^|^.*[=:])((${okt}\.){3}${okt})$/\2/p"         
 192.168.1.1
 192.168.1.2
 192.168.1.3
@@ -184,7 +184,7 @@ cbpi@vault_rpi:~/geekbrains/linux/l4$ grep -oP '(?<=[^\S]|^|[=:])('$okt'\.){3}'$
 
 ```ShellSession
 cbpi@vault_rpi:~/geekbrains/linux/l4$ ip_pattern='((25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})'
-cbpi@vault_rpi:~/geekbrains/linux/l4$ cat ipCheck | tr ' ' '\n' | gawk 'match($0,/(^|^.*[=: ])('$ip_pattern')$/, arr) {print arr[2]}'
+cbpi@vault_rpi:~/geekbrains/linux/l4$ cat ipCheck | tr ' ' '\n' | gawk 'match($0,/(^|^.*[=:])('$ip_pattern')$/, arr) {print arr[2]}'
 192.168.1.1
 192.168.1.2
 192.168.1.3
@@ -424,9 +424,6 @@ https://site.com.ru/some-path/2.bmp
 www.site-site.more.org/dir1/dir2/3.jpeg
 https://www.another_site.ru/.bin.png
 bit.ly/00a0sa0sasaxsdd.png
-cbpi@vault_rpi:~/geekbrains/linux/l4$
-cbpi@vault_rpi:~/geekbrains/linux/l4$
-cbpi@vault_rpi:~/geekbrains/linux/l4$
 ```
 
 ```ShellSession
@@ -581,9 +578,9 @@ cbpi@vault_rpi:~/geekbrains/linux/l4$ grep -oP '^(?!(25[0-5]|2[34]\d|22[4-9]|127
 ```
 
 ```ShellSession
-cbpi@vault_rpi:~/geekbrains/linux/l4$ not_gray='(?!(25[0-5]|2[34]\d|22[4-9]|127|1?0)\.|203\.0\.113|198\.51\.100|198\.1[89]|192\.168|192\.0\.[02]|172\.(3[01]|2\d|1[6-9])|169\.254|100\.(12[0-7]|1[01]\d|[7-9]\d|6[4-9]))'
+cbpi@vault_rpi:~/geekbrains/linux/l4$ not_reserved='(?!(25[0-5]|2[34]\d|22[4-9]|127|1?0)\.|203\.0\.113|198\.51\.100|198\.1[89]|192\.168|192\.0\.[02]|172\.(3[01]|2\d|1[6-9])|169\.254|100\.(12[0-7]|1[01]\d|[7-9]\d|6[4-9]))'
 cbpi@vault_rpi:~/geekbrains/linux/l4$ ip_all='(?<okt>25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(?&okt)){3}'
-cbpi@vault_rpi:~/geekbrains/linux/l4$ grep -oP "^${not_gray}${ip_all}$" whiteIpCheck
+cbpi@vault_rpi:~/geekbrains/linux/l4$ grep -oP "^${not_reserved}${ip_all}$" whiteIpCheck
 223.0.0.0
 126.10.10.10
 11.0.0.0
@@ -602,9 +599,9 @@ cbpi@vault_rpi:~/geekbrains/linux/l4$ grep -oP "^${not_gray}${ip_all}$" whiteIpC
    - Проверка с помощью **awk**:
 
 ```ShellSession
-cbpi@vault_rpi:~/geekbrains/linux/l4$ not_gray='(25[0-5]|2[34][0-9]|22[4-9]|127|1?0)\.|203\.0\.113|198\.51\.100|198\.1[89]|192\.168|192\.0\.[02]|172\.(3[01]|2[0-9]|1[6-9])|169\.254|100\.(12[0-7]|1[01][0-9]|[7-9][0-9]|6[4-9])'
+cbpi@vault_rpi:~/geekbrains/linux/l4$ not_reserved='(25[0-5]|2[34][0-9]|22[4-9]|127|1?0)\.|203\.0\.113|198\.51\.100|198\.1[89]|192\.168|192\.0\.[02]|172\.(3[01]|2[0-9]|1[6-9])|169\.254|100\.(12[0-7]|1[01][0-9]|[7-9][0-9]|6[4-9])'
 cbpi@vault_rpi:~/geekbrains/linux/l4$ ip_pattern='((25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})'
-cbpi@vault_rpi:~/geekbrains/linux/l4$ awk '/'$ip_pattern'/ {if ($1 !~ /^'$not_gray'.*$/) {print $1}}' whiteIpCheck
+cbpi@vault_rpi:~/geekbrains/linux/l4$ awk '/'$ip_pattern'/ {if ($1 !~ /^'$not_reserved'.*$/) {print $1}}' whiteIpCheck
 223.0.0.0
 126.10.10.10
 11.0.0.0
@@ -722,7 +719,7 @@ asasa.bin.jpg
 # **task 5:**
 У вас есть лог log.txt, который содержит запросы на загрузку файлов. Один запрос на одной строке. IP адрес во втором столбце. Имя файла может быть в любом столбце. Столбцы разделены одним или несколькими пробелами. Нужно написать выражение в одну строку, которое выведет список всех IP адресов за исключением **loopback** интерфейсов, с которых запрашивался файл /closeio.html, а также количество таких запросов для каждого адреса. Результат должен быть отсортирован по этому значению. Можно использовать стандартные тулы, которые запустятся на большинстве UNIX системах.
 
-   В первую очередь используем шаблон для поиска всех строк, которые содержат запрос на файл: `\/closeio.html`
+   В первую очередь используем шаблон для поиска всех строк, которые содержат запрос на файл: `\/closeio\.html`
 
    Затем, исключим строки, у которых во втором столбце **loopback**: `(::1|127\.0\.0\.1`
 
@@ -779,7 +776,7 @@ Jay_navalski   159.158.148.85        /movie.html
    - Проверка с помощью **awk**:
 
 ```ShellSession
-cbpi@vault_rpi:~/geekbrains/linux/l4$ awk '/\/closeio.html/ {if ($2 !~/(::1|127\.0\.0\.1)/) {print $2|"sort|uniq -c|sort -r"}}' log.txt
+cbpi@vault_rpi:~/geekbrains/linux/l4$ awk '/\/closeio\.html/ {if ($2 !~/(::1|127\.0\.0\.1)/) {print $2|"sort|uniq -c|sort -r"}}' log.txt
       3 236.185.24.68
       3 121.26.153.90
       1 32.136.34.207
