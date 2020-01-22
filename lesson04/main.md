@@ -814,10 +814,16 @@ cbpi@vault_rpi:~/geekbrains/linux/l4$ awk '/'$ip_pattern'/ {if ($1 !~ /^'$not_re
 (https?:\/\/)?([\w-]+\.)+[a-z]+(\/[\w.-]+)*\/
 ```
 
+   Модифицируем выражение для включения в путь до файла знаков `=` и `?`:
+
+```regex
+(https?:\/\/)?([\w-]+\.)+[a-z]+(\/[\w.=?-]+)*\/
+```
+
    Для проверки наличия файла в URL используем регулярное выражение:
 
 ```regex
-[\w.-]+\.\w+
+[\w.+-]+\.\w+
 ```
 
    Для исключения списка расширений **exe, bin, sh** используем негативный поиск назад:
@@ -832,7 +838,7 @@ cbpi@vault_rpi:~/geekbrains/linux/l4$ awk '/'$ip_pattern'/ {if ($1 !~ /^'$not_re
 Получим итоговый шаблон:
 
 ```regex
-(?<!\S)(https?:\/\/)?([\w-]+\.)+[a-z]+(\/[\w.-]+)*\/[\w.-]+\.\w+(?<!\.exe|bin|sh)(?!\S)
+(?<!\S)(https?:\/\/)?([\w-]+\.)+[a-z]+(\/[\w.=?-]+)*\/[\w.+-]+\.\w+(?<!\.exe|bin|sh)(?!\S)
 ```
 
 <details>
@@ -841,59 +847,99 @@ cbpi@vault_rpi:~/geekbrains/linux/l4$ awk '/'$ip_pattern'/ {if ($1 !~ /^'$not_re
    - Файл для проверки:
 
 ```ShellSession
-cbpi@vault_rpi:~/geekbrains/linux/l4$ cat links2
+cbpi@vault_rpi:~/geekbrains/linux/l4$ cat > moreLinks
 http://site.com/1.png.bin
-
 https://site.com.ru/some-path/2.bmp.exe
-
 www.site-site.more.org/dir1/dir2/3.jpeg.sh
-
 https://www.another_site.ru/4.bin.png
-
 bit.ly/00a0sa0sasaxsdd.png
-
 http://bit.ly/00a0sa0sasaxsdd.docx
-
 https://bit.ly/00a0sa0sasaxsdd.gif.not
-
 http://www.terra.es/asasa.bin.jpg
-
 hhttps://www.terra.es.net/asasa.gif
-
 https:///www.terra.es.com/dir/dir/picture.jpg
-
 https://www.terra2.es.com/
+http://example.com/admin/login/?next=/admin/widgets.exe5
+http://example.com/admin/login/?next=/admin/animation.jpg
+http://example.com/admin/login/?next=/admin/sites/site/change_form.jpg
+http://example.com/admin/login/?next=/admin/sites/site/core.jpg
+http://example.com/static/admin/img/Open+Sans_400_normal.gif
+http://example.com/static/admin/img/Open+Sans_700_normal.gif3
+http://example.com/static/admin/js/Open+Sans_700_normal.giff
+https://example.com/admin/login/?next=/admin/search.phpr
+https://example.com/admin/login/?next=/admin/sorting-icons.php
+https://example.com/admin/login/?next=/admin/sites/site/tooltag-add.php
+https://example.com/admin/login/?next=/admin/sites/site/widgets.php
+https://example.com/Open+Sans_400_normal.gadget
+https://example.com/login/Open+Sans_700_normal.gadget3
+https://example.com/login/Open+Sans_700_normal.gadgetf
 ```
 
    - Проверка с помощью **grep**:
 
 ```ShellSession
-cbpi@vault_rpi:~/geekbrains/linux/l4$ grep -oP '(?<!\S)(https?:\/\/)?([\w-]+\.)+[a-z]+(\/[\w.-]+)*\/[\w.-]+\.\w+(?<!\.exe|bin|sh)(?!\S)' links2
+cbpi@vault_rpi:~/geekbrains/linux/l4$ grep -oP '(?<!\S)(https?:\/\/)?([\w-]+\.)+[a-z]+(\/[\w.=?-]+)*\/[\w.+-]+\.\w+(?<!\.exe|bin|sh)(?!\S)' moreLinks
 https://www.another_site.ru/4.bin.png
 bit.ly/00a0sa0sasaxsdd.png
 http://bit.ly/00a0sa0sasaxsdd.docx
 https://bit.ly/00a0sa0sasaxsdd.gif.not
 http://www.terra.es/asasa.bin.jpg
+http://example.com/admin/login/?next=/admin/widgets.exe5
+http://example.com/admin/login/?next=/admin/animation.jpg
+http://example.com/admin/login/?next=/admin/sites/site/change_form.jpg
+http://example.com/admin/login/?next=/admin/sites/site/core.jpg
+http://example.com/static/admin/img/Open+Sans_400_normal.gif
+http://example.com/static/admin/img/Open+Sans_700_normal.gif3
+http://example.com/static/admin/js/Open+Sans_700_normal.giff
+https://example.com/admin/login/?next=/admin/search.phpr
+https://example.com/admin/login/?next=/admin/sorting-icons.php
 ```
 
 ```ShellSession
-cbpi@vault_rpi:~/geekbrains/linux/l4$ url='(https?:\/\/)?([\w-]+\.)+[a-z]+(\/[\w.-]+)*\/[\w.-]+\.\w+'
-cbpi@vault_rpi:~/geekbrains/linux/l4$ grep -oP '(?<!\S)'$url'(?<!\.exe|bin|sh)(?!\S)' links2
+cbpi@vault_rpi:~/geekbrains/linux/l4$ url='(https?:\/\/)?([\w-]+\.)+[a-z]+(\/[\w.=?-]+)*\/[\w.+-]+\.\w+'
+cbpi@vault_rpi:~/geekbrains/linux/l4$ grep -oP '(?<!\S)'$url'(?<!\.exe|bin|sh)(?!\S)' moreLinks
 https://www.another_site.ru/4.bin.png
 bit.ly/00a0sa0sasaxsdd.png
 http://bit.ly/00a0sa0sasaxsdd.docx
 https://bit.ly/00a0sa0sasaxsdd.gif.not
 http://www.terra.es/asasa.bin.jpg
+http://example.com/admin/login/?next=/admin/widgets.exe5
+http://example.com/admin/login/?next=/admin/animation.jpg
+http://example.com/admin/login/?next=/admin/sites/site/change_form.jpg
+http://example.com/admin/login/?next=/admin/sites/site/core.jpg
+http://example.com/static/admin/img/Open+Sans_400_normal.gif
+http://example.com/static/admin/img/Open+Sans_700_normal.gif3
+http://example.com/static/admin/js/Open+Sans_700_normal.giff
+https://example.com/admin/login/?next=/admin/search.phpr
+https://example.com/admin/login/?next=/admin/sorting-icons.php
+https://example.com/admin/login/?next=/admin/sites/site/tooltag-add.php
+https://example.com/admin/login/?next=/admin/sites/site/widgets.php
+https://example.com/Open+Sans_400_normal.gadget
+https://example.com/login/Open+Sans_700_normal.gadget3
+https://example.com/login/Open+Sans_700_normal.gadgetf
 ```
 
 ```ShellSession
-cbpi@vault_rpi:~/geekbrains/linux/l4$ url='(https?:\/\/)?([\w-]+\.)+[a-z]+(\/[\w.-]+)*\/[\w.-]+\.\w+'
-cbpi@vault_rpi:~/geekbrains/linux/l4$ grep -oP '(?<!\S)'$url'(?<!\.exe|bin|sh)(?!\S)' links2 | awk -F/ '{print $NF}'
+cbpi@vault_rpi:~/geekbrains/linux/l4$ grep -oP '(?<!\S)'$url'(?<!\.exe|bin|sh)(?!\S)' moreLinks | awk -F/ '{print $NF}'
 4.bin.png
 00a0sa0sasaxsdd.png
 00a0sa0sasaxsdd.docx
 00a0sa0sasaxsdd.gif.not
 asasa.bin.jpg
+widgets.exe5
+animation.jpg
+change_form.jpg
+core.jpg
+Open+Sans_400_normal.gif
+Open+Sans_700_normal.gif3
+Open+Sans_700_normal.giff
+search.phpr
+sorting-icons.php
+tooltag-add.php
+widgets.php
+Open+Sans_400_normal.gadget
+Open+Sans_700_normal.gadget3
+Open+Sans_700_normal.gadgetf
 ```
 
 > окончание проверки
