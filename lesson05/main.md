@@ -320,7 +320,7 @@ Not enough arguments
         - path to output directory
     Examples:
         /home/cbpi/bin/text_rework --help
-        /home/cbpi/bin/text_rework ~/.bashrc i -o .
+        /home/cbpi/bin/text_rework ~/.bashrc -o .
 cbpi@vault_rpi:~/geekbrains/linux/l5$ echo $?
 1
 cbpi@vault_rpi:~/geekbrains/linux/l5$ text_rework --help
@@ -335,7 +335,7 @@ cbpi@vault_rpi:~/geekbrains/linux/l5$ text_rework --help
         - path to output directory
     Examples:
         /home/cbpi/bin/text_rework --help
-        /home/cbpi/bin/text_rework ~/.bashrc i -o .
+        /home/cbpi/bin/text_rework ~/.bashrc -o .
 ```
 
 ```ShellSession
@@ -352,7 +352,7 @@ Not enough arguments
         - path to output directory
     Examples:
         /home/cbpi/bin/text_rework --help
-        /home/cbpi/bin/text_rework ~/.bashrc i -o .
+        /home/cbpi/bin/text_rework ~/.bashrc -o .
 cbpi@vault_rpi:~/geekbrains/linux/l5$ echo $?
 2
 ```
@@ -371,7 +371,7 @@ No specified files to work with
         - path to output directory
     Examples:
         /home/cbpi/bin/text_rework --help
-        /home/cbpi/bin/text_rework ~/.bashrc i -o .
+        /home/cbpi/bin/text_rework ~/.bashrc -o .
 cbpi@vault_rpi:~/geekbrains/linux/l5$ echo $?
 3
 ```
