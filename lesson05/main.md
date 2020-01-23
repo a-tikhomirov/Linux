@@ -1254,7 +1254,7 @@ saveit() {
     today=$(date +"%s")
     time_passed=$[($today-$1)/86400]
 
-    [[ time_passed -gt $2 ]] && return 1
+    [[ $time_passed -ge $2 ]] && return 1
 
     return 0
 }
@@ -1342,14 +1342,13 @@ cbpi@cbpi-VirtualBox:~ $ cd backups/backdir/
 cbpi@cbpi-VirtualBox:~/backups/backdir $ ls -lA daily/ weekly/ monthly/
 daily/:
 итого 116416
--rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200116backup.tar.qz
 -rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200117backup.tar.qz
 -rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200118backup.tar.qz
 -rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200119backup.tar.qz
 -rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200120backup.tar.qz
 -rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200121backup.tar.qz
 -rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200122backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi 119207395 янв 23 09:33 20200123backup.tar.gz
+-rw-rw-r-- 1 cbpi cbpi 119207395 янв 23 10:47 20200123backup.tar.gz
 
 monthly/:
 итого 0
