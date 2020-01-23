@@ -1025,7 +1025,7 @@ EOF
 
 PREFIX=$1; shift
 DIGITS=${##}
-COUNT=0
+COUNT=1
 
 echo Processing...
 for file in $@
