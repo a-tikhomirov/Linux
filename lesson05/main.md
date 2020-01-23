@@ -139,7 +139,7 @@ usage(){
         - path to output directory
     Examples:
         $0 --help
-        $0 ~/.bashrc i -o .
+        $0 ~/.bashrc -o .
 EOF
 }
 
@@ -1368,7 +1368,7 @@ weekly/:
 -rw-rw-r-- 1 cbpi cbpi 0 янв 23 10:53 20200120backup.tar.gz
 ```
 
-- Архив успешно создался, *просроченные* заглушки архивов успещно удалены.
+- Архив успешно создался, *просроченные* заглушки архивов успешно удалены.
 
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $ cat backups/backlist
