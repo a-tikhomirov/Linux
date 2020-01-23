@@ -1,15 +1,15 @@
 # **task 1a:**
-Написать скрипт, который удаляет из текстового файла пустые строки и заменяет маленькие символы на большие (воспользуйтесь tr или sed).
+РќР°РїРёСЃР°С‚СЊ СЃРєСЂРёРїС‚, РєРѕС‚РѕСЂС‹Р№ СѓРґР°Р»СЏРµС‚ РёР· С‚РµРєСЃС‚РѕРІРѕРіРѕ С„Р°Р№Р»Р° РїСѓСЃС‚С‹Рµ СЃС‚СЂРѕРєРё Рё Р·Р°РјРµРЅСЏРµС‚ РјР°Р»РµРЅСЊРєРёРµ СЃРёРјРІРѕР»С‹ РЅР° Р±РѕР»СЊС€РёРµ (РІРѕСЃРїРѕР»СЊР·СѓР№С‚РµСЃСЊ tr РёР»Рё sed).
 
-Для удаления пустых строк и замены маленьких символов на большие используем `sed`: 
+Р”Р»СЏ СѓРґР°Р»РµРЅРёСЏ РїСѓСЃС‚С‹С… СЃС‚СЂРѕРє Рё Р·Р°РјРµРЅС‹ РјР°Р»РµРЅСЊРєРёС… СЃРёРјРІРѕР»РѕРІ РЅР° Р±РѕР»СЊС€РёРµ РёСЃРїРѕР»СЊР·СѓРµРј `sed`: 
 
 ```ShellSession
 sed '/^$/d; s/\(.*\)/\U\1/' file
 ```
 
-- Вариант 1:
+- Р’Р°СЂРёР°РЅС‚ 1:
 
-Создание скрипта:
+РЎРѕР·РґР°РЅРёРµ СЃРєСЂРёРїС‚Р°:
 
 ```ShellSession
 cbpi@vault_rpi:~/geekbrains/linux/l5$ vim simple_text_rework.sh
@@ -18,7 +18,7 @@ cbpi@vault_rpi:~/geekbrains/linux/l5$ chmod +x simple_text_rework.sh
 cbpi@vault_rpi:~/geekbrains/linux/l5$ ln -s $(pwd)/simple_text_rework.sh ~/bin/simple_text_rework
 ```
 
-Скрипт:
+РЎРєСЂРёРїС‚:
 
 ```Shell
 #!/bin/bash
@@ -29,7 +29,7 @@ sed "$PATTERN" $@
 ```
 
 <details>
-<summary>Проверка</summary>
+<summary>РџСЂРѕРІРµСЂРєР°</summary>
 
 ```ShellSession
 cbpi@vault_rpi:~/geekbrains/linux/l5$ cat file1
@@ -97,13 +97,13 @@ cbpi@vault_rpi:~/geekbrains/linux/l5$ simple_text_rework file4
 sed: can't read file4: No such file or directory
 ```
 
-> окончание проверки
+> РѕРєРѕРЅС‡Р°РЅРёРµ РїСЂРѕРІРµСЂРєРё
 > ---
 </details>
 
-- Вариант 2:
+- Р’Р°СЂРёР°РЅС‚ 2:
 
-Создание скрипта:
+РЎРѕР·РґР°РЅРёРµ СЃРєСЂРёРїС‚Р°:
 
 ```ShellSession
 cbpi@vault_rpi:~/geekbrains/linux/l5$ vim text_rework.sh
@@ -113,7 +113,7 @@ cbpi@vault_rpi:~/geekbrains/linux/l5$ ln -s $(pwd)/text_rework.sh ~/bin/text_rew
 ```
 
 <details>
-<summary>Скрипт</summary>
+<summary>РЎРєСЂРёРїС‚</summary>
 
 ```Shell
 #!/bin/bash
@@ -190,12 +190,12 @@ done
 exit $EXIT_CODE
 ```
 
-> окончание скрипта
+> РѕРєРѕРЅС‡Р°РЅРёРµ СЃРєСЂРёРїС‚Р°
 > ---
 </details>
 
 <details>
-<summary>Проверка</summary>
+<summary>РџСЂРѕРІРµСЂРєР°</summary>
 
 ```ShellSession
 cbpi@vault_rpi:~/geekbrains/linux/l5$ cat file1
@@ -400,38 +400,38 @@ cbpi@vault_rpi:~/geekbrains/linux/l5$ echo $?
 0
 ```
 
-> окончание проверки
+> РѕРєРѕРЅС‡Р°РЅРёРµ РїСЂРѕРІРµСЂРєРё
 > ---
 </details>
 
 # **task 1b:**
-Написать скрипт мониторинга лога `/var/log/auth.log`, чтобы он выводил сообщения при попытке неудачной аутентификации пользователя, отслеживая сообщения примерно такого вида:
+РќР°РїРёСЃР°С‚СЊ СЃРєСЂРёРїС‚ РјРѕРЅРёС‚РѕСЂРёРЅРіР° Р»РѕРіР° `/var/log/auth.log`, С‡С‚РѕР±С‹ РѕРЅ РІС‹РІРѕРґРёР» СЃРѕРѕР±С‰РµРЅРёСЏ РїСЂРё РїРѕРїС‹С‚РєРµ РЅРµСѓРґР°С‡РЅРѕР№ Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РѕС‚СЃР»РµР¶РёРІР°СЏ СЃРѕРѕР±С‰РµРЅРёСЏ РїСЂРёРјРµСЂРЅРѕ С‚Р°РєРѕРіРѕ РІРёРґР°:
 `May 16 19:45:52 vlamp login[102782]: FAILED LOGIN (1) on '/dev/tty3' FOR 'user', Authentication failure`
-Проверить скрипт, сделав корректную и ошибочную аутентификации с реального и виртуального терминала.
+РџСЂРѕРІРµСЂРёС‚СЊ СЃРєСЂРёРїС‚, СЃРґРµР»Р°РІ РєРѕСЂСЂРµРєС‚РЅСѓСЋ Рё РѕС€РёР±РѕС‡РЅСѓСЋ Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё СЃ СЂРµР°Р»СЊРЅРѕРіРѕ Рё РІРёСЂС‚СѓР°Р»СЊРЅРѕРіРѕ С‚РµСЂРјРёРЅР°Р»Р°.
 
-Для мониторинга файла `/var/log/auth.log` используем команду `tail -0f /var/log/auth.log`, где `-0f` обозначает вывести 0 последних строк и выводить новые строки по мере появления.
+Р”Р»СЏ РјРѕРЅРёС‚РѕСЂРёРЅРіР° С„Р°Р№Р»Р° `/var/log/auth.log` РёСЃРїРѕР»СЊР·СѓРµРј РєРѕРјР°РЅРґСѓ `tail -0f /var/log/auth.log`, РіРґРµ `-0f` РѕР±РѕР·РЅР°С‡Р°РµС‚ РІС‹РІРµСЃС‚Рё 0 РїРѕСЃР»РµРґРЅРёС… СЃС‚СЂРѕРє Рё РІС‹РІРѕРґРёС‚СЊ РЅРѕРІС‹Рµ СЃС‚СЂРѕРєРё РїРѕ РјРµСЂРµ РїРѕСЏРІР»РµРЅРёСЏ.
 
-- При неудачной попытке аутентификации в графическом интерфейсе сообщение в `auth.log` имеет вид:
+- РџСЂРё РЅРµСѓРґР°С‡РЅРѕР№ РїРѕРїС‹С‚РєРµ Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РІ РіСЂР°С„РёС‡РµСЃРєРѕРј РёРЅС‚РµСЂС„РµР№СЃРµ СЃРѕРѕР±С‰РµРЅРёРµ РІ `auth.log` РёРјРµРµС‚ РІРёРґ:
 
 ```
 Jan 22 19:18:59 cbpi-VirtualBox gdm-password]: pam_unix(gdm-password:auth): authentication failure; logname= uid=0 euid=0 tty=/dev/tty1 ruser= rhost=  user=cbpi
 ```
 
-- При неудачной попытке аутентификации по `ssh` сообщение в `auth.log` имеет вид:
+- РџСЂРё РЅРµСѓРґР°С‡РЅРѕР№ РїРѕРїС‹С‚РєРµ Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РїРѕ `ssh` СЃРѕРѕР±С‰РµРЅРёРµ РІ `auth.log` РёРјРµРµС‚ РІРёРґ:
 
 ```
 Jan 22 19:20:52 cbpi-VirtualBox sshd[4663]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.41.2  user=cbpi
 Jan 22 19:20:54 cbpi-VirtualBox sshd[4663]: Failed password for cbpi from 192.168.41.2 port 60400 ssh2
 ```
 
-- При неудачной попытке аутентификации в виртуальном терминале сообщение в `auth.log` имеет вид:
+- РџСЂРё РЅРµСѓРґР°С‡РЅРѕР№ РїРѕРїС‹С‚РєРµ Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РІ РІРёСЂС‚СѓР°Р»СЊРЅРѕРј С‚РµСЂРјРёРЅР°Р»Рµ СЃРѕРѕР±С‰РµРЅРёРµ РІ `auth.log` РёРјРµРµС‚ РІРёРґ:
 
 ```
 Jan 22 19:22:02 cbpi-VirtualBox login[4649]: pam_unix(login:auth): authentication failure; logname=LOGIN uid=0 euid=0 tty=/dev/tty2 ruser= rhost=
 Jan 22 19:22:05 cbpi-VirtualBox login[4649]: FAILED LOGIN (1) on '/dev/tty2' FOR 'UNKNOWN', Authentication failure
 ```
 
-Создание скрипта:
+РЎРѕР·РґР°РЅРёРµ СЃРєСЂРёРїС‚Р°:
 
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $ vim ~/bin/auth_monitor.sh
@@ -440,7 +440,7 @@ cbpi@cbpi-VirtualBox:~ $ chmod +x ~/bin/auth_monitor.sh
 cbpi@cbpi-VirtualBox:~ $ sudo ln -s ~/bin/auth_monitor.sh /usr/sbin/authmon
 ```
 
-Скрипт:
+РЎРєСЂРёРїС‚:
 
 ```Shell
 #!/bin/bash
@@ -458,9 +458,9 @@ done
 ```
 
 <details>
-<summary>Проверка</summary>
+<summary>РџСЂРѕРІРµСЂРєР°</summary>
 
-SSH сессия:
+SSH СЃРµСЃСЃРёСЏ:
 
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $ authmon &
@@ -468,7 +468,7 @@ cbpi@cbpi-VirtualBox:~ $ authmon &
 cbpi@cbpi-VirtualBox:~ $
 ```
 
-- Неудачная попытка аутентификации в графическом интерфейсе. SSH сессия с запущенным скриптом:
+- РќРµСѓРґР°С‡РЅР°СЏ РїРѕРїС‹С‚РєР° Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РІ РіСЂР°С„РёС‡РµСЃРєРѕРј РёРЅС‚РµСЂС„РµР№СЃРµ. SSH СЃРµСЃСЃРёСЏ СЃ Р·Р°РїСѓС‰РµРЅРЅС‹Рј СЃРєСЂРёРїС‚РѕРј:
 
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $
@@ -477,9 +477,9 @@ Jan 22 21:37:24 cbpi-VirtualBox gdm-password]: pam_unix(gdm-password:auth): auth
 
 ```
 
-- При удачной аутентификации в графическом интерфейсе скрипт ничего не выводит.
+- РџСЂРё СѓРґР°С‡РЅРѕР№ Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РІ РіСЂР°С„РёС‡РµСЃРєРѕРј РёРЅС‚РµСЂС„РµР№СЃРµ СЃРєСЂРёРїС‚ РЅРёС‡РµРіРѕ РЅРµ РІС‹РІРѕРґРёС‚.
 
-- Неудачная попытка аутентификации в виртуальном терминале. SSH сессия с запущенным скриптом:
+- РќРµСѓРґР°С‡РЅР°СЏ РїРѕРїС‹С‚РєР° Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РІ РІРёСЂС‚СѓР°Р»СЊРЅРѕРј С‚РµСЂРјРёРЅР°Р»Рµ. SSH СЃРµСЃСЃРёСЏ СЃ Р·Р°РїСѓС‰РµРЅРЅС‹Рј СЃРєСЂРёРїС‚РѕРј:
 
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $
@@ -489,9 +489,9 @@ Jan 22 21:40:23 cbpi-VirtualBox login[5827]: FAILED LOGIN (1) on '/dev/tty2' FOR
 
 ```
 
-- При удачной аутентификации в виртуальном терминале скрипт ничего не выводит.
+- РџСЂРё СѓРґР°С‡РЅРѕР№ Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РІ РІРёСЂС‚СѓР°Р»СЊРЅРѕРј С‚РµСЂРјРёРЅР°Р»Рµ СЃРєСЂРёРїС‚ РЅРёС‡РµРіРѕ РЅРµ РІС‹РІРѕРґРёС‚.
 
-- Неудачная попытка аутентификации по ssh. SSH сессия с запущенным скриптом:
+- РќРµСѓРґР°С‡РЅР°СЏ РїРѕРїС‹С‚РєР° Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РїРѕ ssh. SSH СЃРµСЃСЃРёСЏ СЃ Р·Р°РїСѓС‰РµРЅРЅС‹Рј СЃРєСЂРёРїС‚РѕРј:
 
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $
@@ -501,16 +501,16 @@ Jan 22 21:42:50 cbpi-VirtualBox sshd[6730]: Failed password for cbpi from 192.16
 
 ```
 
-- При удачной аутентификации по ssh скрипт ничего не выводит.
+- РџСЂРё СѓРґР°С‡РЅРѕР№ Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РїРѕ ssh СЃРєСЂРёРїС‚ РЅРёС‡РµРіРѕ РЅРµ РІС‹РІРѕРґРёС‚.
 
-> окончание проверки
+> РѕРєРѕРЅС‡Р°РЅРёРµ РїСЂРѕРІРµСЂРєРё
 > ---
 </details>
 
 # **task 1c:**
-Создать скрипт, который создаст директории для нескольких годов (2010 — 2017), в них — поддиректории для месяцев (от 01 до 12), и в каждый из них запишет несколько файлов с произвольными записями (например 001.txt, содержащий текст Файл 001, 002.txt с текстом Файл 002) и т.д.
+РЎРѕР·РґР°С‚СЊ СЃРєСЂРёРїС‚, РєРѕС‚РѕСЂС‹Р№ СЃРѕР·РґР°СЃС‚ РґРёСЂРµРєС‚РѕСЂРёРё РґР»СЏ РЅРµСЃРєРѕР»СЊРєРёС… РіРѕРґРѕРІ (2010 вЂ” 2017), РІ РЅРёС… вЂ” РїРѕРґРґРёСЂРµРєС‚РѕСЂРёРё РґР»СЏ РјРµСЃСЏС†РµРІ (РѕС‚ 01 РґРѕ 12), Рё РІ РєР°Р¶РґС‹Р№ РёР· РЅРёС… Р·Р°РїРёС€РµС‚ РЅРµСЃРєРѕР»СЊРєРѕ С„Р°Р№Р»РѕРІ СЃ РїСЂРѕРёР·РІРѕР»СЊРЅС‹РјРё Р·Р°РїРёСЃСЏРјРё (РЅР°РїСЂРёРјРµСЂ 001.txt, СЃРѕРґРµСЂР¶Р°С‰РёР№ С‚РµРєСЃС‚ Р¤Р°Р№Р» 001, 002.txt СЃ С‚РµРєСЃС‚РѕРј Р¤Р°Р№Р» 002) Рё С‚.Рґ.
 
-Создание скрипта:
+РЎРѕР·РґР°РЅРёРµ СЃРєСЂРёРїС‚Р°:
 
 ```ShellSession
 cbpi@vault_rpi:~/geekbrains/linux/l5$ vim make_dirs.sh
@@ -520,7 +520,7 @@ cbpi@vault_rpi:~/geekbrains/linux/l5$ ln -s $(pwd)/make_dirs.sh ~/bin/make_dirs
 ```
 
 <details>
-<summary>Скрипт</summary>
+<summary>РЎРєСЂРёРїС‚</summary>
 
 ```Shell
 #!/bin/bash
@@ -575,12 +575,12 @@ echo Done!
 exit 0
 ```
 
-> окончание скрипта
+> РѕРєРѕРЅС‡Р°РЅРёРµ СЃРєСЂРёРїС‚Р°
 > ---
 </details>
 
 <details>
-<summary>Проверка</summary>
+<summary>РџСЂРѕРІРµСЂРєР°</summary>
 
 ```ShellSession
 cbpi@vault_rpi:~/geekbrains/linux/l5$ mkdir 1c; cd 1c
@@ -741,22 +741,22 @@ cbpi@vault_rpi:~/geekbrains/linux/l5/1c$ echo $?
 4
 ```
 
-> окончание проверки
+> РѕРєРѕРЅС‡Р°РЅРёРµ РїСЂРѕРІРµСЂРєРё
 > ---
 </details>
 
 # **task 2a:**
-Создать файл crontab, который ежедневно регистрирует занятое каждым пользователем дисковое пространство в его домашней директории.
+РЎРѕР·РґР°С‚СЊ С„Р°Р№Р» crontab, РєРѕС‚РѕСЂС‹Р№ РµР¶РµРґРЅРµРІРЅРѕ СЂРµРіРёСЃС‚СЂРёСЂСѓРµС‚ Р·Р°РЅСЏС‚РѕРµ РєР°Р¶РґС‹Рј РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј РґРёСЃРєРѕРІРѕРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ РІ РµРіРѕ РґРѕРјР°С€РЅРµР№ РґРёСЂРµРєС‚РѕСЂРёРё.
 
-Чтобы каждый пользователь имел возможность проверить занятое дисковое пространство добавим в `.bashrc` следующую строку:
+Р§С‚РѕР±С‹ РєР°Р¶РґС‹Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РёРјРµР» РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїСЂРѕРІРµСЂРёС‚СЊ Р·Р°РЅСЏС‚РѕРµ РґРёСЃРєРѕРІРѕРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ РґРѕР±Р°РІРёРј РІ `.bashrc` СЃР»РµРґСѓСЋС‰СѓСЋ СЃС‚СЂРѕРєСѓ:
 
 ```Shell
 read HSIZE <<< $(cat ~/.size)
 ```
 
-Задача `cron` в свою очередь будет записывать полученное значение занятого пространства в файл `.size` в домашней директории каждого пользователя.
+Р—Р°РґР°С‡Р° `cron` РІ СЃРІРѕСЋ РѕС‡РµСЂРµРґСЊ Р±СѓРґРµС‚ Р·Р°РїРёСЃС‹РІР°С‚СЊ РїРѕР»СѓС‡РµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Р·Р°РЅСЏС‚РѕРіРѕ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІР° РІ С„Р°Р№Р» `.size` РІ РґРѕРјР°С€РЅРµР№ РґРёСЂРµРєС‚РѕСЂРёРё РєР°Р¶РґРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ.
 
-Создадим скрипт для проверки занятого пространства:
+РЎРѕР·РґР°РґРёРј СЃРєСЂРёРїС‚ РґР»СЏ РїСЂРѕРІРµСЂРєРё Р·Р°РЅСЏС‚РѕРіРѕ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІР°:
 
 ```ShellSession
 root@cbpi-VirtualBox:~# vim /usr/sbin/get_home_sizes
@@ -764,7 +764,7 @@ root@cbpi-VirtualBox:~# vim /usr/sbin/get_home_sizes
 root@cbpi-VirtualBox:~# chmod +x /usr/sbin/get_home_sizes
 ```
 
-Скрипт:
+РЎРєСЂРёРїС‚:
 
 ```Shell
 #!/bin/bash
@@ -780,7 +780,7 @@ do
 done
 ```
 
-Создадим задачу в 'crontab', скрипт `get_home_sizes` будет выполнятся каждый день в `9:00`
+РЎРѕР·РґР°РґРёРј Р·Р°РґР°С‡Сѓ РІ 'crontab', СЃРєСЂРёРїС‚ `get_home_sizes` Р±СѓРґРµС‚ РІС‹РїРѕР»РЅСЏС‚СЃСЏ РєР°Р¶РґС‹Р№ РґРµРЅСЊ РІ `9:00`
 
 ```ShellSession
 root@cbpi-VirtualBox:~# crontab -e
@@ -809,36 +809,36 @@ root@cbpi-VirtualBox:~# crontab -e
 0 9 * * * /usr/sbin/get_home_sizes
 ```
 
-Для проверки было выставлено иное время запуска (`3:00`), скрипт в заданное тестовое время выполнился успешно:
+Р”Р»СЏ РїСЂРѕРІРµСЂРєРё Р±С‹Р»Рѕ РІС‹СЃС‚Р°РІР»РµРЅРѕ РёРЅРѕРµ РІСЂРµРјСЏ Р·Р°РїСѓСЃРєР° (`3:00`), СЃРєСЂРёРїС‚ РІ Р·Р°РґР°РЅРЅРѕРµ С‚РµСЃС‚РѕРІРѕРµ РІСЂРµРјСЏ РІС‹РїРѕР»РЅРёР»СЃСЏ СѓСЃРїРµС€РЅРѕ:
 
 ```ShellSession
 root@cbpi-VirtualBox:~# ll /home/*/.size
--rw-r--r-- 1 root root 5 янв 23 03:00 /home/cbpi/.size
--rw-r--r-- 1 root root 4 янв 23 03:00 /home/dev1/.size
--rw-r--r-- 1 root root 4 янв 23 03:00 /home/dev2/.size
--rw-r--r-- 1 root root 4 янв 23 03:00 /home/dev3/.size
+-rw-r--r-- 1 root root 5 СЏРЅРІ 23 03:00 /home/cbpi/.size
+-rw-r--r-- 1 root root 4 СЏРЅРІ 23 03:00 /home/dev1/.size
+-rw-r--r-- 1 root root 4 СЏРЅРІ 23 03:00 /home/dev2/.size
+-rw-r--r-- 1 root root 4 СЏРЅРІ 23 03:00 /home/dev3/.size
 root@cbpi-VirtualBox:~# su cbpi
-Пароль:
+РџР°СЂРѕР»СЊ:
 cbpi@cbpi-VirtualBox:/root $ echo $HSIZE
 1,3G
 cbpi@cbpi-VirtualBox:/root $ su dev1
-Пароль:
+РџР°СЂРѕР»СЊ:
 dev1@cbpi-VirtualBox:/root$ echo $HSIZE
 48K
 dev1@cbpi-VirtualBox:/root$ su dev2
-Пароль:
+РџР°СЂРѕР»СЊ:
 dev2@cbpi-VirtualBox:/root$ echo $HSIZE
 40K
 dev2@cbpi-VirtualBox:/root$ su dev3
-Пароль:
+РџР°СЂРѕР»СЊ:
 dev3@cbpi-VirtualBox:/root$ echo $HSIZE
 40K
 ```
 
 # **task 2b:**
-Создать скрипт ownersort.sh, который в заданной папке копирует файлы в директории, названные по имени владельца каждого файла. Учтите, что файл должен принадлежать соответствующему владельцу 
+РЎРѕР·РґР°С‚СЊ СЃРєСЂРёРїС‚ ownersort.sh, РєРѕС‚РѕСЂС‹Р№ РІ Р·Р°РґР°РЅРЅРѕР№ РїР°РїРєРµ РєРѕРїРёСЂСѓРµС‚ С„Р°Р№Р»С‹ РІ РґРёСЂРµРєС‚РѕСЂРёРё, РЅР°Р·РІР°РЅРЅС‹Рµ РїРѕ РёРјРµРЅРё РІР»Р°РґРµР»СЊС†Р° РєР°Р¶РґРѕРіРѕ С„Р°Р№Р»Р°. РЈС‡С‚РёС‚Рµ, С‡С‚Рѕ С„Р°Р№Р» РґРѕР»Р¶РµРЅ РїСЂРёРЅР°РґР»РµР¶Р°С‚СЊ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РІР»Р°РґРµР»СЊС†Сѓ 
 
-Создание скрипта:
+РЎРѕР·РґР°РЅРёРµ СЃРєСЂРёРїС‚Р°:
 
 ```ShellSession
 root@cbpi-VirtualBox:~# vim /usr/sbin/ownersort.sh
@@ -846,7 +846,7 @@ root@cbpi-VirtualBox:~# vim /usr/sbin/ownersort.sh
 root@cbpi-VirtualBox:~# chmod +x /usr/sbin/ownersort.sh
 ```
 
-Скрипт:
+РЎРєСЂРёРїС‚:
 
 ```Shell
 #!/bin/bash
@@ -883,37 +883,37 @@ exit 0
 ```
 
 <details>
-<summary>Проверка</summary>
+<summary>РџСЂРѕРІРµСЂРєР°</summary>
 
-- Директория для проверки:
+- Р”РёСЂРµРєС‚РѕСЂРёСЏ РґР»СЏ РїСЂРѕРІРµСЂРєРё:
 
 ```ShellSession
 root@cbpi-VirtualBox:/developer# ll
-итого 16
-drwxrwsr-x+  4 root developer 4096 янв 23 03:41 ./
-drwxr-xr-x  25 root root      4096 дек 27 21:48 ../
--rw-rw-r--+  1 cbpi developer    0 янв 23 03:14 cbpiFile1
--rw-rw-r--+  1 cbpi developer    0 янв 23 03:14 cbpiFile2
--rw-rw-r--+  1 cbpi developer    0 янв 23 03:14 cbpiFile3
--rw-rw-r--+  1 cbpi developer    0 янв 23 03:14 cbpiFile4
--rw-rw-r--+  1 cbpi developer    0 янв 23 03:14 cbpiFile5
--rw-rw-r--+  1 dev1 developer    0 янв 23 03:14 dev1file1
--rw-rw-r--+  1 dev1 developer    0 янв 23 03:14 dev1file2
--rw-rw-r--+  1 dev1 developer    0 янв 23 03:14 dev1file3
--rw-rw-r--+  1 dev1 developer    0 янв 23 03:14 dev1file4
--rw-rw-r--+  1 dev1 developer    0 янв 23 03:14 dev1file5
--rw-rw-r--+  1 dev2 developer    0 янв 23 03:14 dev2file1
--rw-rw-r--+  1 dev2 developer    0 янв 23 03:14 dev2file2
--rw-rw-r--+  1 dev2 developer    0 янв 23 03:14 dev2file3
--rw-rw-r--+  1 dev2 developer    0 янв 23 03:14 dev2file4
--rw-rw-r--+  1 dev2 developer    0 янв 23 03:14 dev2file5
--rw-rw-r--+  1 dev3 developer    0 янв 23 03:15 dev3file1
--rw-rw-r--+  1 dev3 developer    0 янв 23 03:15 dev3file2
-drwxrws--t+  2 root developer 4096 дек 27 22:08 hiddenFiles/
-drwxrwsr-t+  2 root developer 4096 дек 30 00:45 shared/
+РёС‚РѕРіРѕ 16
+drwxrwsr-x+  4 root developer 4096 СЏРЅРІ 23 03:41 ./
+drwxr-xr-x  25 root root      4096 РґРµРє 27 21:48 ../
+-rw-rw-r--+  1 cbpi developer    0 СЏРЅРІ 23 03:14 cbpiFile1
+-rw-rw-r--+  1 cbpi developer    0 СЏРЅРІ 23 03:14 cbpiFile2
+-rw-rw-r--+  1 cbpi developer    0 СЏРЅРІ 23 03:14 cbpiFile3
+-rw-rw-r--+  1 cbpi developer    0 СЏРЅРІ 23 03:14 cbpiFile4
+-rw-rw-r--+  1 cbpi developer    0 СЏРЅРІ 23 03:14 cbpiFile5
+-rw-rw-r--+  1 dev1 developer    0 СЏРЅРІ 23 03:14 dev1file1
+-rw-rw-r--+  1 dev1 developer    0 СЏРЅРІ 23 03:14 dev1file2
+-rw-rw-r--+  1 dev1 developer    0 СЏРЅРІ 23 03:14 dev1file3
+-rw-rw-r--+  1 dev1 developer    0 СЏРЅРІ 23 03:14 dev1file4
+-rw-rw-r--+  1 dev1 developer    0 СЏРЅРІ 23 03:14 dev1file5
+-rw-rw-r--+  1 dev2 developer    0 СЏРЅРІ 23 03:14 dev2file1
+-rw-rw-r--+  1 dev2 developer    0 СЏРЅРІ 23 03:14 dev2file2
+-rw-rw-r--+  1 dev2 developer    0 СЏРЅРІ 23 03:14 dev2file3
+-rw-rw-r--+  1 dev2 developer    0 СЏРЅРІ 23 03:14 dev2file4
+-rw-rw-r--+  1 dev2 developer    0 СЏРЅРІ 23 03:14 dev2file5
+-rw-rw-r--+  1 dev3 developer    0 СЏРЅРІ 23 03:15 dev3file1
+-rw-rw-r--+  1 dev3 developer    0 СЏРЅРІ 23 03:15 dev3file2
+drwxrws--t+  2 root developer 4096 РґРµРє 27 22:08 hiddenFiles/
+drwxrwsr-t+  2 root developer 4096 РґРµРє 30 00:45 shared/
 ```
 
-- Проверка:
+- РџСЂРѕРІРµСЂРєР°:
 
 ```ShellSession
 root@cbpi-VirtualBox:/developer# ownersort.sh -p
@@ -939,60 +939,60 @@ making directory: dev3 ... DONE
 copying file: dev3file1 -> dev3/dev3file1 ... DONE
 copying file: dev3file2 -> dev3/dev3file2 ... DONE
 root@cbpi-VirtualBox:/developer# ll
-итого 32
-drwxrwsr-x+  8 root developer 4096 янв 23 04:11 ./
-drwxr-xr-x  25 root root      4096 дек 27 21:48 ../
-drwxrwsr-x+  2 cbpi developer 4096 янв 23 04:11 cbpi/
--rw-rw-r--+  1 cbpi developer    0 янв 23 03:14 cbpiFile1
--rw-rw-r--+  1 cbpi developer    0 янв 23 03:14 cbpiFile2
--rw-rw-r--+  1 cbpi developer    0 янв 23 03:14 cbpiFile3
--rw-rw-r--+  1 cbpi developer    0 янв 23 03:14 cbpiFile4
--rw-rw-r--+  1 cbpi developer    0 янв 23 03:14 cbpiFile5
-drwxrwsr-x+  2 dev1 developer 4096 янв 23 04:11 dev1/
--rw-rw-r--+  1 dev1 developer    0 янв 23 03:14 dev1file1
--rw-rw-r--+  1 dev1 developer    0 янв 23 03:14 dev1file2
--rw-rw-r--+  1 dev1 developer    0 янв 23 03:14 dev1file3
--rw-rw-r--+  1 dev1 developer    0 янв 23 03:14 dev1file4
--rw-rw-r--+  1 dev1 developer    0 янв 23 03:14 dev1file5
-drwxrwsr-x+  2 dev2 developer 4096 янв 23 04:11 dev2/
--rw-rw-r--+  1 dev2 developer    0 янв 23 03:14 dev2file1
--rw-rw-r--+  1 dev2 developer    0 янв 23 03:14 dev2file2
--rw-rw-r--+  1 dev2 developer    0 янв 23 03:14 dev2file3
--rw-rw-r--+  1 dev2 developer    0 янв 23 03:14 dev2file4
--rw-rw-r--+  1 dev2 developer    0 янв 23 03:14 dev2file5
-drwxrwsr-x+  2 dev3 developer 4096 янв 23 04:11 dev3/
--rw-rw-r--+  1 dev3 developer    0 янв 23 03:15 dev3file1
--rw-rw-r--+  1 dev3 developer    0 янв 23 03:15 dev3file2
-drwxrws--t+  2 root developer 4096 дек 27 22:08 hiddenFiles/
-drwxrwsr-t+  2 root developer 4096 дек 30 00:45 shared/
+РёС‚РѕРіРѕ 32
+drwxrwsr-x+  8 root developer 4096 СЏРЅРІ 23 04:11 ./
+drwxr-xr-x  25 root root      4096 РґРµРє 27 21:48 ../
+drwxrwsr-x+  2 cbpi developer 4096 СЏРЅРІ 23 04:11 cbpi/
+-rw-rw-r--+  1 cbpi developer    0 СЏРЅРІ 23 03:14 cbpiFile1
+-rw-rw-r--+  1 cbpi developer    0 СЏРЅРІ 23 03:14 cbpiFile2
+-rw-rw-r--+  1 cbpi developer    0 СЏРЅРІ 23 03:14 cbpiFile3
+-rw-rw-r--+  1 cbpi developer    0 СЏРЅРІ 23 03:14 cbpiFile4
+-rw-rw-r--+  1 cbpi developer    0 СЏРЅРІ 23 03:14 cbpiFile5
+drwxrwsr-x+  2 dev1 developer 4096 СЏРЅРІ 23 04:11 dev1/
+-rw-rw-r--+  1 dev1 developer    0 СЏРЅРІ 23 03:14 dev1file1
+-rw-rw-r--+  1 dev1 developer    0 СЏРЅРІ 23 03:14 dev1file2
+-rw-rw-r--+  1 dev1 developer    0 СЏРЅРІ 23 03:14 dev1file3
+-rw-rw-r--+  1 dev1 developer    0 СЏРЅРІ 23 03:14 dev1file4
+-rw-rw-r--+  1 dev1 developer    0 СЏРЅРІ 23 03:14 dev1file5
+drwxrwsr-x+  2 dev2 developer 4096 СЏРЅРІ 23 04:11 dev2/
+-rw-rw-r--+  1 dev2 developer    0 СЏРЅРІ 23 03:14 dev2file1
+-rw-rw-r--+  1 dev2 developer    0 СЏРЅРІ 23 03:14 dev2file2
+-rw-rw-r--+  1 dev2 developer    0 СЏРЅРІ 23 03:14 dev2file3
+-rw-rw-r--+  1 dev2 developer    0 СЏРЅРІ 23 03:14 dev2file4
+-rw-rw-r--+  1 dev2 developer    0 СЏРЅРІ 23 03:14 dev2file5
+drwxrwsr-x+  2 dev3 developer 4096 СЏРЅРІ 23 04:11 dev3/
+-rw-rw-r--+  1 dev3 developer    0 СЏРЅРІ 23 03:15 dev3file1
+-rw-rw-r--+  1 dev3 developer    0 СЏРЅРІ 23 03:15 dev3file2
+drwxrws--t+  2 root developer 4096 РґРµРє 27 22:08 hiddenFiles/
+drwxrwsr-t+  2 root developer 4096 РґРµРє 30 00:45 shared/
 root@cbpi-VirtualBox:/developer# ls -lA cbpi/* dev*/*
--rw-rw-r--+ 1 cbpi developer 0 янв 23 04:11 cbpi/cbpiFile1
--rw-rw-r--+ 1 cbpi developer 0 янв 23 04:11 cbpi/cbpiFile2
--rw-rw-r--+ 1 cbpi developer 0 янв 23 04:11 cbpi/cbpiFile3
--rw-rw-r--+ 1 cbpi developer 0 янв 23 04:11 cbpi/cbpiFile4
--rw-rw-r--+ 1 cbpi developer 0 янв 23 04:11 cbpi/cbpiFile5
--rw-rw-r--+ 1 dev1 developer 0 янв 23 04:11 dev1/dev1file1
--rw-rw-r--+ 1 dev1 developer 0 янв 23 04:11 dev1/dev1file2
--rw-rw-r--+ 1 dev1 developer 0 янв 23 04:11 dev1/dev1file3
--rw-rw-r--+ 1 dev1 developer 0 янв 23 04:11 dev1/dev1file4
--rw-rw-r--+ 1 dev1 developer 0 янв 23 04:11 dev1/dev1file5
--rw-rw-r--+ 1 dev2 developer 0 янв 23 04:11 dev2/dev2file1
--rw-rw-r--+ 1 dev2 developer 0 янв 23 04:11 dev2/dev2file2
--rw-rw-r--+ 1 dev2 developer 0 янв 23 04:11 dev2/dev2file3
--rw-rw-r--+ 1 dev2 developer 0 янв 23 04:11 dev2/dev2file4
--rw-rw-r--+ 1 dev2 developer 0 янв 23 04:11 dev2/dev2file5
--rw-rw-r--+ 1 dev3 developer 0 янв 23 04:11 dev3/dev3file1
--rw-rw-r--+ 1 dev3 developer 0 янв 23 04:11 dev3/dev3file2
+-rw-rw-r--+ 1 cbpi developer 0 СЏРЅРІ 23 04:11 cbpi/cbpiFile1
+-rw-rw-r--+ 1 cbpi developer 0 СЏРЅРІ 23 04:11 cbpi/cbpiFile2
+-rw-rw-r--+ 1 cbpi developer 0 СЏРЅРІ 23 04:11 cbpi/cbpiFile3
+-rw-rw-r--+ 1 cbpi developer 0 СЏРЅРІ 23 04:11 cbpi/cbpiFile4
+-rw-rw-r--+ 1 cbpi developer 0 СЏРЅРІ 23 04:11 cbpi/cbpiFile5
+-rw-rw-r--+ 1 dev1 developer 0 СЏРЅРІ 23 04:11 dev1/dev1file1
+-rw-rw-r--+ 1 dev1 developer 0 СЏРЅРІ 23 04:11 dev1/dev1file2
+-rw-rw-r--+ 1 dev1 developer 0 СЏРЅРІ 23 04:11 dev1/dev1file3
+-rw-rw-r--+ 1 dev1 developer 0 СЏРЅРІ 23 04:11 dev1/dev1file4
+-rw-rw-r--+ 1 dev1 developer 0 СЏРЅРІ 23 04:11 dev1/dev1file5
+-rw-rw-r--+ 1 dev2 developer 0 СЏРЅРІ 23 04:11 dev2/dev2file1
+-rw-rw-r--+ 1 dev2 developer 0 СЏРЅРІ 23 04:11 dev2/dev2file2
+-rw-rw-r--+ 1 dev2 developer 0 СЏРЅРІ 23 04:11 dev2/dev2file3
+-rw-rw-r--+ 1 dev2 developer 0 СЏРЅРІ 23 04:11 dev2/dev2file4
+-rw-rw-r--+ 1 dev2 developer 0 СЏРЅРІ 23 04:11 dev2/dev2file5
+-rw-rw-r--+ 1 dev3 developer 0 СЏРЅРІ 23 04:11 dev3/dev3file1
+-rw-rw-r--+ 1 dev3 developer 0 СЏРЅРІ 23 04:11 dev3/dev3file2
 ```
 
-> окончание проверки
+> РѕРєРѕРЅС‡Р°РЅРёРµ РїСЂРѕРІРµСЂРєРё
 > ---
 </details>
 
 # **task 2c:**
-Написать скрипт rename.sh, аналогичный разобранному, но порядковые номера файлов выравнивать, заполняя слева нуля до ширины максимального значения индекса: newname000.jpg, newname102.jpg (Использовать printf). Дополнительно к 3 добавить проверку на расширение, чтобы не переименовать .sh.
+РќР°РїРёСЃР°С‚СЊ СЃРєСЂРёРїС‚ rename.sh, Р°РЅР°Р»РѕРіРёС‡РЅС‹Р№ СЂР°Р·РѕР±СЂР°РЅРЅРѕРјСѓ, РЅРѕ РїРѕСЂСЏРґРєРѕРІС‹Рµ РЅРѕРјРµСЂР° С„Р°Р№Р»РѕРІ РІС‹СЂР°РІРЅРёРІР°С‚СЊ, Р·Р°РїРѕР»РЅСЏСЏ СЃР»РµРІР° РЅСѓР»СЏ РґРѕ С€РёСЂРёРЅС‹ РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РёРЅРґРµРєСЃР°: newname000.jpg, newname102.jpg (РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ printf). Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ Рє 3 РґРѕР±Р°РІРёС‚СЊ РїСЂРѕРІРµСЂРєСѓ РЅР° СЂР°СЃС€РёСЂРµРЅРёРµ, С‡С‚РѕР±С‹ РЅРµ РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ .sh.
 
-Создание скрипта:
+РЎРѕР·РґР°РЅРёРµ СЃРєСЂРёРїС‚Р°:
 
 ```ShellSession
 cbpi@vault_rpi:~/geekbrains/linux/l5$ vim rename.sh
@@ -1001,7 +1001,7 @@ cbpi@vault_rpi:~/geekbrains/linux/l5$ chmod +x rename.sh
 cbpi@vault_rpi:~/geekbrains/linux/l5$ ln -s $(pwd)/rename.sh ~/bin/renamer
 ```
 
-Скрипт:
+РЎРєСЂРёРїС‚:
 
 ```Shell
 #!/bin/bash
@@ -1041,9 +1041,9 @@ exit 0
 ```
 
 <details>
-<summary>Проверка</summary>
+<summary>РџСЂРѕРІРµСЂРєР°</summary>
 
-- Директория для проверки:
+- Р”РёСЂРµРєС‚РѕСЂРёСЏ РґР»СЏ РїСЂРѕРІРµСЂРєРё:
 
 ```ShellSession
 cbpi@vault_rpi:~/geekbrains/linux/l5$ mkdir 2c; cd 2c
@@ -1090,7 +1090,7 @@ IMG000036.jpg  IMG000074.jpg  IMG000112.jpg  IMG000150.jpg  IMG000188.jpg  IMG00
 IMG000037.jpg  IMG000075.jpg  IMG000113.jpg  IMG000151.jpg  IMG000189.jpg  IMG000227.jpg  IMG000265.jpg
 ```
 
-- Проверка:
+- РџСЂРѕРІРµСЂРєР°:
 
 ```ShellSession
 cbpi@vault_rpi:~/geekbrains/linux/l5/2c$ renamer foo *
@@ -1206,14 +1206,14 @@ bar39.jpg  bar70.jpg  baz2.jpg   foo123.jpg  foo154.jpg  foo185.jpg  foo216.jpg 
 bar40.jpg  bar71.jpg  baz3.jpg   foo124.jpg  foo155.jpg  foo186.jpg  foo217.jpg  foo248.jpg  foo279.jpg
 ```
 
-> окончание проверки
+> РѕРєРѕРЅС‡Р°РЅРёРµ РїСЂРѕРІРµСЂРєРё
 > ---
 </details>
 
 # **task 2d:**
-Написать скрипт резервного копирования по расписанию следующим образом: В первый день месяца помещать копию в backdir/monthly. Бэкап по пятницам хранить в каталоге backdir/weekley. В остальные дни сохранять копии в backdir/daily. Настроить ротацию следующим образом. Ежемесячные копии хранить 180 дней, ежедневные — неделю, еженедельные — 30 дней. Подсказка: для ротации используйте find.
+РќР°РїРёСЃР°С‚СЊ СЃРєСЂРёРїС‚ СЂРµР·РµСЂРІРЅРѕРіРѕ РєРѕРїРёСЂРѕРІР°РЅРёСЏ РїРѕ СЂР°СЃРїРёСЃР°РЅРёСЋ СЃР»РµРґСѓСЋС‰РёРј РѕР±СЂР°Р·РѕРј: Р’ РїРµСЂРІС‹Р№ РґРµРЅСЊ РјРµСЃСЏС†Р° РїРѕРјРµС‰Р°С‚СЊ РєРѕРїРёСЋ РІ backdir/monthly. Р‘СЌРєР°Рї РїРѕ РїСЏС‚РЅРёС†Р°Рј С…СЂР°РЅРёС‚СЊ РІ РєР°С‚Р°Р»РѕРіРµ backdir/weekley. Р’ РѕСЃС‚Р°Р»СЊРЅС‹Рµ РґРЅРё СЃРѕС…СЂР°РЅСЏС‚СЊ РєРѕРїРёРё РІ backdir/daily. РќР°СЃС‚СЂРѕРёС‚СЊ СЂРѕС‚Р°С†РёСЋ СЃР»РµРґСѓСЋС‰РёРј РѕР±СЂР°Р·РѕРј. Р•Р¶РµРјРµСЃСЏС‡РЅС‹Рµ РєРѕРїРёРё С…СЂР°РЅРёС‚СЊ 180 РґРЅРµР№, РµР¶РµРґРЅРµРІРЅС‹Рµ вЂ” РЅРµРґРµР»СЋ, РµР¶РµРЅРµРґРµР»СЊРЅС‹Рµ вЂ” 30 РґРЅРµР№. РџРѕРґСЃРєР°Р·РєР°: РґР»СЏ СЂРѕС‚Р°С†РёРё РёСЃРїРѕР»СЊР·СѓР№С‚Рµ find.
 
-Создание скрипта и необходимых папок:
+РЎРѕР·РґР°РЅРёРµ СЃРєСЂРёРїС‚Р° Рё РЅРµРѕР±С…РѕРґРёРјС‹С… РїР°РїРѕРє:
 
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $ vim bin/backup.sh
@@ -1228,7 +1228,7 @@ cbpi@cbpi-VirtualBox:~ $ mkdir backups/backdir/weekly
 cbpi@cbpi-VirtualBox:~ $ mkdir backups/backdir/daily
 ```
 
-Расписание для скрипта:
+Р Р°СЃРїРёСЃР°РЅРёРµ РґР»СЏ СЃРєСЂРёРїС‚Р°:
 
 ```
 # every first day of the month
@@ -1242,7 +1242,7 @@ cbpi@cbpi-VirtualBox:~ $ mkdir backups/backdir/daily
 ```
 
 <details>
-<summary>Скрипт</summary>
+<summary>РЎРєСЂРёРїС‚</summary>
 
 ```Shell
 #!/bin/bash
@@ -1296,14 +1296,14 @@ cat "$BACKLIST" | xargs find | xargs -d '\n' tar -c |  gzip -9c > $(date +"%Y%m%
 popd &>/dev/null
 ```
 
-> окончание скрипта
+> РѕРєРѕРЅС‡Р°РЅРёРµ СЃРєСЂРёРїС‚Р°
 > ---
 </details>
 
 <details>
-<summary>Проверка</summary>
+<summary>РџСЂРѕРІРµСЂРєР°</summary>
 
-- Создадим заглушки архивов для проверки ротации:
+- РЎРѕР·РґР°РґРёРј Р·Р°РіР»СѓС€РєРё Р°СЂС…РёРІРѕРІ РґР»СЏ РїСЂРѕРІРµСЂРєРё СЂРѕС‚Р°С†РёРё:
 
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $ cd backups/backdir/daily/
@@ -1332,59 +1332,59 @@ cbpi@cbpi-VirtualBox:~/backups/backdir/monthly $ ls
 20190401backup.tar.qz  20190801backup.tar.qz  20191201backup.tar.qz
 ```
 
-- Проверка ротации и создания архива:
+- РџСЂРѕРІРµСЂРєР° СЂРѕС‚Р°С†РёРё Рё СЃРѕР·РґР°РЅРёСЏ Р°СЂС…РёРІР°:
 
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $ backup.sh --rotate daily
-tar: Удаляется начальный `/' из имен объектов
-tar: Удаляются начальные `/' из целей жестких ссылок
+tar: РЈРґР°Р»СЏРµС‚СЃСЏ РЅР°С‡Р°Р»СЊРЅС‹Р№ `/' РёР· РёРјРµРЅ РѕР±СЉРµРєС‚РѕРІ
+tar: РЈРґР°Р»СЏСЋС‚СЃСЏ РЅР°С‡Р°Р»СЊРЅС‹Рµ `/' РёР· С†РµР»РµР№ Р¶РµСЃС‚РєРёС… СЃСЃС‹Р»РѕРє
 cbpi@cbpi-VirtualBox:~ $ cd backups/backdir/
 cbpi@cbpi-VirtualBox:~/backups/backdir $ ls -lA daily/ weekly/ monthly/
 daily/:
-итого 116416
--rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200116backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200117backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200118backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200119backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200120backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200121backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200122backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi 119207395 янв 23 09:33 20200123backup.tar.gz
+РёС‚РѕРіРѕ 116416
+-rw-rw-r-- 1 cbpi cbpi         0 СЏРЅРІ 23 07:57 20200116backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi         0 СЏРЅРІ 23 07:57 20200117backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi         0 СЏРЅРІ 23 07:57 20200118backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi         0 СЏРЅРІ 23 07:57 20200119backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi         0 СЏРЅРІ 23 07:57 20200120backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi         0 СЏРЅРІ 23 07:57 20200121backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi         0 СЏРЅРІ 23 07:57 20200122backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi 119207395 СЏРЅРІ 23 09:33 20200123backup.tar.gz
 
 monthly/:
-итого 0
--rw-rw-r-- 1 cbpi cbpi 0 янв 23 08:05 20190801backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi 0 янв 23 08:05 20190901backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi 0 янв 23 08:05 20191001backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi 0 янв 23 08:05 20191101backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi 0 янв 23 08:05 20191201backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi 0 янв 23 08:05 20200101backup.tar.qz
+РёС‚РѕРіРѕ 0
+-rw-rw-r-- 1 cbpi cbpi 0 СЏРЅРІ 23 08:05 20190801backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi 0 СЏРЅРІ 23 08:05 20190901backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi 0 СЏРЅРІ 23 08:05 20191001backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi 0 СЏРЅРІ 23 08:05 20191101backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi 0 СЏРЅРІ 23 08:05 20191201backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi 0 СЏРЅРІ 23 08:05 20200101backup.tar.qz
 
 weekly/:
-итого 0
--rw-rw-r-- 1 cbpi cbpi 0 янв 23 08:06 20191230backup.tar.qz
+РёС‚РѕРіРѕ 0
+-rw-rw-r-- 1 cbpi cbpi 0 СЏРЅРІ 23 08:06 20191230backup.tar.qz
 ```
 
-- Архив успешно создался, *просроченные* заглушки архивов успещно удалены.
+- РђСЂС…РёРІ СѓСЃРїРµС€РЅРѕ СЃРѕР·РґР°Р»СЃСЏ, *РїСЂРѕСЃСЂРѕС‡РµРЅРЅС‹Рµ* Р·Р°РіР»СѓС€РєРё Р°СЂС…РёРІРѕРІ СѓСЃРїРµС‰РЅРѕ СѓРґР°Р»РµРЅС‹.
 
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $ cat backups/backlist
-/home/cbpi/Изображения
-/home/cbpi/Документы
+/home/cbpi/РР·РѕР±СЂР°Р¶РµРЅРёСЏ
+/home/cbpi/Р”РѕРєСѓРјРµРЅС‚С‹
 cbpi@cbpi-VirtualBox:~ $ tar -tf backups/backdir/daily/20200123backup.tar.gz | head
-home/cbpi/Изображения/
-home/cbpi/Изображения/Zalevskij75 - 44.jpg
-home/cbpi/Изображения/space (49).jpg
-home/cbpi/Изображения/Kosmos022.jpg
-home/cbpi/Изображения/w_9a0d6399.jpg
-home/cbpi/Изображения/space (60).jpg
-home/cbpi/Изображения/space (143).jpg
-home/cbpi/Изображения/Космос (78).jpeg
-home/cbpi/Изображения/ok9M9cI8WRI.jpg
-home/cbpi/Изображения/Kosmos003.jpg
+home/cbpi/РР·РѕР±СЂР°Р¶РµРЅРёСЏ/
+home/cbpi/РР·РѕР±СЂР°Р¶РµРЅРёСЏ/Zalevskij75 - 44.jpg
+home/cbpi/РР·РѕР±СЂР°Р¶РµРЅРёСЏ/space (49).jpg
+home/cbpi/РР·РѕР±СЂР°Р¶РµРЅРёСЏ/Kosmos022.jpg
+home/cbpi/РР·РѕР±СЂР°Р¶РµРЅРёСЏ/w_9a0d6399.jpg
+home/cbpi/РР·РѕР±СЂР°Р¶РµРЅРёСЏ/space (60).jpg
+home/cbpi/РР·РѕР±СЂР°Р¶РµРЅРёСЏ/space (143).jpg
+home/cbpi/РР·РѕР±СЂР°Р¶РµРЅРёСЏ/РљРѕСЃРјРѕСЃ (78).jpeg
+home/cbpi/РР·РѕР±СЂР°Р¶РµРЅРёСЏ/ok9M9cI8WRI.jpg
+home/cbpi/РР·РѕР±СЂР°Р¶РµРЅРёСЏ/Kosmos003.jpg
 ```
 
-> окончание проверки
+> РѕРєРѕРЅС‡Р°РЅРёРµ РїСЂРѕРІРµСЂРєРё
 > ---
 </details>
 
