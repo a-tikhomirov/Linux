@@ -1317,9 +1317,10 @@ cbpi@cbpi-VirtualBox:~/backups/backdir/daily $ ls
 ```ShellSession
 cbpi@cbpi-VirtualBox:~/backups/backdir/daily $ cd ../weekly/
 cbpi@cbpi-VirtualBox:~/backups/backdir/weekly $ touch 201912{02,09,16,23,30}backup.tar.qz
-cbpi@cbpi-VirtualBox:~/backups/backdir/weekly $ ls
-20191202backup.tar.qz  20191216backup.tar.qz  20191230backup.tar.qz
-20191209backup.tar.qz  20191223backup.tar.qz
+cbpi@cbpi-VirtualBox:~/backups/backdir/weekly $ touch 202001{06,13,20}backup.tar.gz
+bpi@cbpi-VirtualBox:~/backups/backdir/weekly $ ls
+20191202backup.tar.qz  20191216backup.tar.qz  20191230backup.tar.qz  20200113backup.tar.gz
+20191209backup.tar.qz  20191223backup.tar.qz  20200106backup.tar.gz  20200120backup.tar.gz
 ```
 
 ```ShellSession
@@ -1348,7 +1349,7 @@ daily/:
 -rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200120backup.tar.qz
 -rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200121backup.tar.qz
 -rw-rw-r-- 1 cbpi cbpi         0 янв 23 07:57 20200122backup.tar.qz
--rw-rw-r-- 1 cbpi cbpi 119207395 янв 23 10:47 20200123backup.tar.gz
+-rw-rw-r-- 1 cbpi cbpi 119207395 янв 23 10:54 20200123backup.tar.gz
 
 monthly/:
 итого 0
@@ -1361,7 +1362,10 @@ monthly/:
 
 weekly/:
 итого 0
--rw-rw-r-- 1 cbpi cbpi 0 янв 23 08:06 20191230backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi 0 янв 23 10:53 20191230backup.tar.qz
+-rw-rw-r-- 1 cbpi cbpi 0 янв 23 10:53 20200106backup.tar.gz
+-rw-rw-r-- 1 cbpi cbpi 0 янв 23 10:53 20200113backup.tar.gz
+-rw-rw-r-- 1 cbpi cbpi 0 янв 23 10:53 20200120backup.tar.gz
 ```
 
 - Архив успешно создался, *просроченные* заглушки архивов успещно удалены.
