@@ -752,7 +752,7 @@ cbpi@vault_rpi:~/geekbrains/linux/l5/1c$ echo $?
 
 Информация о занятом дисковом пространстве в домашней директории для каждого пользователся будет записана в файл `.size` в домашней директории каждого пользователя. 
 
-Чтобы каждый пользователь имел свою переменную, хранящую значение занятого дискового пространства, добавим в `.bashrc` (если файл существует) следующие строки:
+Чтобы каждый пользователь имел свою переменную и команду для вывода значения занятого дискового пространства, добавим в `.bashrc` (если файл существует) следующие строки:
 
 ```Shell
 read HSIZE <<< $(cat ~/.size)
@@ -842,12 +842,12 @@ root@cbpi-VirtualBox:~# grep -P "x\:[0-9]{4,}" /etc/passwd | awk -F":" '{print $
 /home/dev2
 /home/dev3
 root@cbpi-VirtualBox:~# ll /home/*/.size
--rw-r--r-- 1 root root 5 янв 24 16:15 /home/cbpi/.size
--rw-r--r-- 1 root root 4 янв 24 16:15 /home/dev1/.size
--rw-r--r-- 1 root root 4 янв 24 16:15 /home/dev2/.size
--rw-r--r-- 1 root root 4 янв 24 16:15 /home/dev3/.size
+-rw-r--r-- 1 root root 5 янв 24 17:00 /home/cbpi/.size
+-rw-r--r-- 1 root root 4 янв 24 17:00 /home/dev1/.size
+-rw-r--r-- 1 root root 4 янв 24 17:00 /home/dev2/.size
+-rw-r--r-- 1 root root 4 янв 24 17:00 /home/dev3/.size
 root@cbpi-VirtualBox:~# cat /tmp/size_info
-Пт янв 24 16:15:01 MSK 2020
+Пт янв 24 17:00:01 MSK 2020
 cbpi: /home/cbpi - 1,5G
 dev1: /home/dev1 - 52K
 dev2: /home/dev2 - 48K
