@@ -748,15 +748,17 @@ cbpi@vault_rpi:~/geekbrains/linux/l5/1c$ echo $?
 # **task 2a:**
 Создать файл crontab, который ежедневно регистрирует занятое каждым пользователем дисковое пространство в его домашней директории.
 
-Чтобы каждый пользователь имел возможность проверить занятое дисковое пространство добавим в `.bashrc` следующую строку:
+Информация о занятом дисковом пространстве в домашней директории по всем пользователям будет записана в файл `/tmp/size_info`
+
+Информация о занятом дисковом пространстве в домашней директории для каждого пользователся будет записана в файл `.size` в домашней директории каждого пользователя. 
+
+Чтобы каждый пользователь имел свою переменную, хранящую значение занятого дискового пространства, добавим в `.bashrc` (если файл существует) следующую строку:
 
 ```Shell
 read HSIZE <<< $(cat ~/.size)
 ```
 
-Задача `cron` в свою очередь будет записывать полученное значение занятого пространства в файл `.size` в домашней директории каждого пользователя.
-
-Создадим скрипт для проверки занятого пространства:
+Создадим скрипт для проверки занятого дискового пространства:
 
 ```ShellSession
 root@cbpi-VirtualBox:~# vim /usr/sbin/get_home_sizes
@@ -770,13 +772,30 @@ root@cbpi-VirtualBox:~# chmod +x /usr/sbin/get_home_sizes
 #!/bin/bash
 
 COMMAND='read HSIZE <<< $(cat ~/.size)'
+SIZE_INFO="/tmp/size_info"
 F_SIZE=".size"
 
-for homedir in /home/*
+check_bashrc(){
+    if [[ -f $1/.bashrc ]]; then
+        grep -e "$COMMAND" $1/.bashrc &> /dev/null
+        [[ $? == 0 ]] || echo "$COMMAND" >> $1/.bashrc
+    fi
+}
+
+echo `date` > $SIZE_INFO
+for passwd_str in `grep -P "x\:[0-9]{4,}" /etc/passwd`
 do
-    grep -e "$COMMAND" $homedir/.bashrc &> /dev/null
-    [[ $? == 0 ]] || echo "$COMMAND" >> $homedir/.bashrc
-    du -hs $homedir | awk '{print $1}' > $homedir/$F_SIZE
+    user=`echo $passwd_str | awk -F":" '{print $1}'`
+    user_hdir=`echo $passwd_str | awk -F":" '{print $6}'`
+
+    if [[ -d $user_hdir ]]; then
+        check_bashrc $user_hdir
+
+        hsize=`du -hs $user_hdir | awk '{print $1}'`
+
+        echo $hsize > $user_hdir/$F_SIZE
+        printf "%s: %s - %s\n" $user $user_hdir $hsize >> $SIZE_INFO
+    fi
 done
 ```
 
@@ -809,30 +828,46 @@ root@cbpi-VirtualBox:~# crontab -e
 0 9 * * * /usr/sbin/get_home_sizes
 ```
 
-Для проверки было выставлено иное время запуска (`3:00`), скрипт в заданное тестовое время выполнился успешно:
+Для проверки было выставлено иное время запуска (`16:15`), скрипт в заданное тестовое время выполнился успешно:
 
 ```ShellSession
+root@cbpi-VirtualBox:~# grep -P "x\:[0-9]{4,}" /etc/passwd | awk -F":" '{print $6}'
+/nonexistent
+/home/cbpi
+/home/dev1
+/home/dev2
+/home/dev3
 root@cbpi-VirtualBox:~# ll /home/*/.size
--rw-r--r-- 1 root root 5 янв 23 03:00 /home/cbpi/.size
--rw-r--r-- 1 root root 4 янв 23 03:00 /home/dev1/.size
--rw-r--r-- 1 root root 4 янв 23 03:00 /home/dev2/.size
--rw-r--r-- 1 root root 4 янв 23 03:00 /home/dev3/.size
-root@cbpi-VirtualBox:~# su cbpi
-Пароль:
-cbpi@cbpi-VirtualBox:/root $ echo $HSIZE
+-rw-r--r-- 1 root root 5 янв 24 16:15 /home/cbpi/.size
+-rw-r--r-- 1 root root 4 янв 24 16:15 /home/dev1/.size
+-rw-r--r-- 1 root root 4 янв 24 16:15 /home/dev2/.size
+-rw-r--r-- 1 root root 4 янв 24 16:15 /home/dev3/.size
+root@cbpi-VirtualBox:~# cat /tmp/size_info
+Пт янв 24 16:15:01 MSK 2020
+cbpi: /home/cbpi - 1,5G
+dev1: /home/dev1 - 52K
+dev2: /home/dev2 - 48K
+dev3: /home/dev3 - 48K
+```
+
+```ShellSession
+cbpi@cbpi-VirtualBox:~ $ echo $HSIZE
 1,3G
-cbpi@cbpi-VirtualBox:/root $ su dev1
-Пароль:
-dev1@cbpi-VirtualBox:/root$ echo $HSIZE
+```
+
+```ShellSession
+dev1@cbpi-VirtualBox:~$ echo $HSIZE
+52K
+```
+
+```ShellSession
+dev2@cbpi-VirtualBox:~$ echo $HSIZE
 48K
-dev1@cbpi-VirtualBox:/root$ su dev2
-Пароль:
-dev2@cbpi-VirtualBox:/root$ echo $HSIZE
-40K
-dev2@cbpi-VirtualBox:/root$ su dev3
-Пароль:
-dev3@cbpi-VirtualBox:/root$ echo $HSIZE
-40K
+```
+
+```ShellSession
+dev3@cbpi-VirtualBox:~$ echo $HSIZE
+48K
 ```
 
 # **task 2b:**
