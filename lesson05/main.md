@@ -752,10 +752,11 @@ cbpi@vault_rpi:~/geekbrains/linux/l5/1c$ echo $?
 
 Информация о занятом дисковом пространстве в домашней директории для каждого пользователся будет записана в файл `.size` в домашней директории каждого пользователя. 
 
-Чтобы каждый пользователь имел свою переменную, хранящую значение занятого дискового пространства, добавим в `.bashrc` (если файл существует) следующую строку:
+Чтобы каждый пользователь имел свою переменную, хранящую значение занятого дискового пространства, добавим в `.bashrc` (если файл существует) следующие строки:
 
 ```Shell
 read HSIZE <<< $(cat ~/.size)
+alias hsize='cat ~/.size'
 ```
 
 Создадим скрипт для проверки занятого дискового пространства:
@@ -771,14 +772,17 @@ root@cbpi-VirtualBox:~# chmod +x /usr/sbin/get_home_sizes
 ```Shell
 #!/bin/bash
 
-COMMAND='read HSIZE <<< $(cat ~/.size)'
 SIZE_INFO="/tmp/size_info"
+ADD_VAR='read HSIZE <<< $(cat ~/.size)'
+ADD_ALIAS="alias hsize='cat ~/.size'"
 F_SIZE=".size"
 
 check_bashrc(){
     if [[ -f $1/.bashrc ]]; then
-        grep -e "$COMMAND" $1/.bashrc &> /dev/null
-        [[ $? == 0 ]] || echo "$COMMAND" >> $1/.bashrc
+        grep -e "$ADD_VAR" $1/.bashrc &> /dev/null
+        [[ $? == 0 ]] || echo $ADD_VAR >> $1/.bashrc
+        grep -e "$ADD_ALIAS" $1/.bashrc &> /dev/null
+        [[ $? == 0 ]] || echo $ADD_ALIAS >> $1/.bashrc
     fi
 }
 
@@ -799,7 +803,7 @@ do
 done
 ```
 
-Создадим задачу в 'crontab', скрипт `get_home_sizes` будет выполнятся каждый день в `9:00`
+Создадим задачу в 'crontab', скрипт `get_home_sizes` будет выполнятся каждый день в `17:00`
 
 ```ShellSession
 root@cbpi-VirtualBox:~# crontab -e
@@ -825,10 +829,10 @@ root@cbpi-VirtualBox:~# crontab -e
 # For more information see the manual pages of crontab(5) and cron(8)
 #
 # m h  dom mon dow   command
-0 9 * * * /usr/sbin/get_home_sizes
+0 17 * * * /usr/sbin/get_home_sizes
 ```
 
-Для проверки было выставлено иное время запуска (`16:15`), скрипт в заданное тестовое время выполнился успешно:
+Скрипт в заданное время выполнился успешно:
 
 ```ShellSession
 root@cbpi-VirtualBox:~# grep -P "x\:[0-9]{4,}" /etc/passwd | awk -F":" '{print $6}'
@@ -853,20 +857,28 @@ dev3: /home/dev3 - 48K
 ```ShellSession
 cbpi@cbpi-VirtualBox:~ $ echo $HSIZE
 1,3G
+cbpi@cbpi-VirtualBox:~ $ hsize
+1,5G
 ```
 
 ```ShellSession
 dev1@cbpi-VirtualBox:~$ echo $HSIZE
+52K
+dev1@cbpi-VirtualBox:~$ hsize
 52K
 ```
 
 ```ShellSession
 dev2@cbpi-VirtualBox:~$ echo $HSIZE
 48K
+dev2@cbpi-VirtualBox:~$ hsize
+48K
 ```
 
 ```ShellSession
 dev3@cbpi-VirtualBox:~$ echo $HSIZE
+48K
+dev3@cbpi-VirtualBox:~$ hsize
 48K
 ```
 
