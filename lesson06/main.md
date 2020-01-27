@@ -103,6 +103,9 @@ Nmap done: 1 IP address (1 host up) scanned in 4.95 seconds
 
 Как мы видим, `997 closed ports` изменилось на `997 filtered ports` и есть потенциально открытые порты `80` и `443`.
 
+[Как открыть порт Ubuntu](https://losst.ru/kak-otkryt-port-ubuntu)  
+[Как посмотреть открытые порты в Linux](https://losst.ru/kak-posmotret-otkrytye-porty-v-linux)
+
 ## **task 1.2 & 1.3:**
 Установить **nginx**, сконфигурировать свой виртуальный хост, используя порт `80`, так, чтобы:
 - на запрос клиента с указанным и непустым хидером `User`. отправлять код `200` с текстом `"Hi $user!"`, где `$user` - это значение хидера `User`.
@@ -195,6 +198,12 @@ Hi, Nameless one!
 > ---
 </details>
 
+Использовано в процессе решения:    
+[Установка Nginx](https://losst.ru/ustanovka-nginx-ubuntu-16-04)  
+[Adding and using header (HTTP) in nginx](https://stackoverflow.com/questions/11973047/adding-and-using-header-http-in-nginx)  
+[Module ngx_http_core_module](http://nginx.org/en/docs/http/ngx_http_core_module.html#Variables)  
+[Модуль ngx_http_headers_module](https://nginx.org/ru/docs/http/ngx_http_headers_module.html)
+
 # **task 2:**
 ## **task 2.1:**
 Найти информацию о том, что такое самоподписанные сертификаты и сгенерировать такой для своего веб-сервера. Написать своими словами, что это такое и как сгенерить.
@@ -232,8 +241,17 @@ Email Address []:
 - `rootCA.key` - закрытый ключ;
 
 Копируем полученные ключи в директорию `nginx`:  
-  `mkdir /etc/nginx/ssl`  
+  `mkdir /etc/nginx/ssl`
   `cp rootCA* /etc/nginx/ssl/`
+
+Использовано в процессе решения:  
+[Самоподписанный SSL сертификат - преимущества и недостатки](https://www.emaro-ssl.ru/blog/self-signed-certificate/)  
+[Что такое самоподписанный сертификат SSL и каковы его недостатки](https://serpstat.com/ru/blog/chto-takoe-samopodpisannyj-sertifikat-ssl/)  
+[Что такое SSL-сертификат, зачем он нужен и где его взять](https://te-st.ru/2014/12/03/what-is-ssl/)  
+[Как работает SSL-сертификат](https://ssl.com.ua/info/how-ssl-works/)  
+[How To Create a Self-Signed SSL Certificate for Nginx in Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04)  
+[Create a Self-Signed Certificate for Nginx in 5 Minutes](https://www.humankode.com/ssl/create-a-selfsigned-certificate-for-nginx-in-5-minutes)
+[Настройка ssl (https) в nginx](http://docs.mirocow.com/doku.php?id=nginx:%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0_ssl_https_%D0%B2_nginx)
 
 ## **task 2.2:**
 Добавить SSL соединение для дефолтного виртуального хоста nginx, используя порт 443. Прикрепить конфиги nginx.
@@ -242,8 +260,8 @@ Email Address []:
 
 - Добавим конфигурацию для тестирования SSL соединения:  
   `cp /etc/nginx/sites-available/default /etc/nginx/sites-available/ssl-test`  
-  `ln -s /etc/nginx/sites-available/ssl-test /etc/nginx/sites-enabled/ssl-test`  
-  `vim /etc/nginx/sites-available/ssl-test`
+  `ln -s /etc/nginx/sites-available/ssl-test /etc/nginx/sites-enabled/ssl-test`
+  `vim /etc/nginx/sites-available/default`
 
 ```
 server {
@@ -436,6 +454,10 @@ server {
 
 Готово =)
 
+Использовано в процессе решения:  
+[Basic Constraints certificate extension ](https://www.pkisolutions.com/basic-constraints-certificate-extension/)  
+[Как выпустить самоподписанный SSL сертификат и заставить ваш браузер доверять ему](https://habr.com/ru/post/352722/)
+
 ## **task 2.5:**
 Мы говорили о необходимости шифровать симметрично. При этом проблем с получением ассиметричных сертификатов нет. Зачем такая сложная схема для установления SSL соединения? Почему бы не шифровать ассиметрично? Своими словами.
 
@@ -453,6 +475,11 @@ server {
 Благодаря сертификату обеспечивается уверенность в том, что соединение было установлено именно с тем, с кем нужно.  
 Для того чтобы перехват передаваемого ключа не давал возможность расшифровать данные ключ шифруется ассиметричным методом и для каждой сессии связи устанавливается новый ключ.  
 Для скорости обмена данными и приемлемного потребления ресурсов - сами данные шифруются уже симметричным методом, с помощью сессионного ключа.
+
+Использовано в процессе решения:  
+[Как работает SSL? Принцип работы https соединения](https://www.ipipe.ru/info/kak-rabotaet-ssl-sertificat.html)  
+[Сравнение симметричного и асимметричного шифрований](https://www.binance.vision/ru/security/symmetric-vs-asymmetric-encryption)  
+[Открытый и закрытый ключ шифрования](https://firstssl.ru/faq/general-questions/kluch-shifrovania)
 
 # **task 3:**
 ## **task 3.1 - 3.3:**
