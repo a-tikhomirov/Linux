@@ -1279,7 +1279,7 @@ cbpi@cbpi-VirtualBox:~ $ mkdir backups/backdir/daily
 
 ```
 # every first day of the month
-0 9 1 * * ~/bin/baskup.sh montly
+0 9 1 * * ~/bin/baskup.sh monthly
 # every friday
 0 9 2-31 * 5 ~/bin/backup.sh weekly
 # every other day
