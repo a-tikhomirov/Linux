@@ -14,6 +14,10 @@
 
 Т.е. можно сказать что отличие в том, что резидентная память - это сколько физической памяти процесс реально использует, а виртуальная - это сколько процессу было выделено системой (сколько может использовать потенциально).
 
+Источник:  
+[Команда TOP: Отличие между VIRT, RES и SHR столбцами](http://profhelp.com.ua/content/%D0%BE%D1%82%D0%BB%D0%B8%D1%87%D0%B8%D0%B5-%D0%BC%D0%B5%D0%B6%D0%B4%D1%83-virt-res-%D0%B8-shr-%D0%B2-%D0%B2%D1%8B%D0%B2%D0%BE%D0%B4%D0%B5-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B-top)
+
+
 ## **task 2:**
 Что такое виртуальная файловая система `/proc` ?
 
@@ -22,6 +26,10 @@
 - Файловая система `/proc` является механизмом для ядра и его модулей, позволяющим посылать информацию процессам.  
 - Файловая система `/proc` располагается в памяти.  
 - Виртуальная ФС `/proc` обеспечивает возможность работы с внутренними структурами ядра, получения полезной информации о процессах и изменения установок (меняя параметры ядра) на лету.
+
+Источники:  
+[Изучаем файловую систему proc](https://www.dkws.org.ua/article.php?id=65)  
+[Файловая система proc в Linux](https://losst.ru/fajlovaya-sistema-proc-v-linux)
 
 ## **task 3:**
 Как отключить ядро процессора в системе?
@@ -55,6 +63,9 @@ On-line CPU(s) list:     0-2
 Off-line CPU(s) list:    3
 ```
 
+Источники:  
+[Отключение ядер процессора в Linux ](https://blog.tataranovich.com/2013/02/linux.html)
+
 ## **task 4:**
 Какие есть типы приоритетов?
 
@@ -67,6 +78,11 @@ Off-line CPU(s) list:    3
   Значение этого приоритета определяет **порядок выполнения задач**, время выполнения задачи не лимитировано до тех пор, пока она не будет вытеснена *real-time* задачей с большим приоритетом (актуально для *SCHED_FIFO*, для *SCHED_RR* время может быть ограничено). Диапазон значений приоритетов реального времени составляет от `1` до `99`.
 
 *real-time* задачи (задачи, к которым применена политика *SCHED_FIFO/SCHED_RR*) не могут быть вытеснены *nice* задачами (задачи, к которым применена политика *SCHED_NORMAL*), т.е. имеют больший приоритет над *nice* задачами.
+
+Источники:  
+[Приоритет процесса в Linux](https://life-prog.ru/view_linux.php?id=15)  
+[A difference between nice priorities and RT priorities in Linux](https://medium.com/@karadaharu/a-difference-between-nice-priorities-and-rt-priorities-in-linux-7c299f8ea790)  
+[Priorities and policies](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_MRG/1.3/html/Realtime_Reference_Guide/chap-Realtime_Reference_Guide-Priorities_and_policies.html)
 
 ## **task 5:**
 Запустить два процесса, которые потребляют все время процессора таким образом, чтобы одному из них ядро давала больше процессорного времени
@@ -124,7 +140,7 @@ PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND
 32238 cbpi      30  10   14612    928    864 R  9,6  0,0   0:30.95 dd
 ```
 
-Для второг процесса уменьшилось выделяемое процессорное время.
+Для второг процесса уменьшилось выдялемое процессорное время.
 
 ## **task 6:**
 Что называют overcommit'ом? Какие существуют политики выделения памяти?
@@ -141,6 +157,12 @@ PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND
   - 2 — отказ обработки запросов, запрашивающих память, размер которой превышает суммарный размер памяти swap и RAM в соответствии с `overcommit_ratio`. Допустимый объем пространства памяти будет `total_swap + alowed`, где `alowed = total_ram * overcommit_ratio / 100`  
 - `overcommit_ratio` - если `overcommit_memory` равен 2, определяет процентную часть физической памяти. По умолчанию равен `50`. 
 - `nr_hugepages` - число страниц большого размера. По умолчанию равно `0`. Выделение больших страниц возможно только при наличии достаточного числа следующих друг за другом свободных страниц. Зарезервированные этим параметром страницы не могут использоваться для других целей.
+	
+Источники:  
+[Параметры производительности в /proc](https://access.redhat.com/documentation/ru-ru/red_hat_enterprise_linux/6/html/performance_tuning_guide/s-memory-captun)  
+[Черезмерное выделение памяти (overcommit)](http://tolstiyman.blogspot.com/2013/08/overcommit.html)  
+[Про память: overcommit memory](http://catap.ru/blog/2009/05/05/about-memory-overcommit-memory/)  
+[Как Linux работает с памятью](https://habr.com/ru/company/yandex/blog/250753/)
 
 ## **task 7:**
 Какие можно выставить политики при событии overcommit'a?
@@ -158,6 +180,12 @@ PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND
 - Автоматическая перезагрузка системы - установить параметр `kernel.panic` больше нуля.  
   Например, `sysctl kernel.panic=60` установит автоматическую перезагрузку системы через 60 секунд при `kernel_paniс`.  
   Чтобы этот параметр после перезагрузки системы применялся автоматически необходимо его зафиксировать в файле `/etc/sysctl.conf`  
+
+[Автоматическая перезагрузка linux при kernel panic](https://i-notes.org/avtomaticheskaya-perezagruzka-linux-pri-kernel-panic/)  
+[Linux Out-of-Memory Killer (OOM)](http://geckich.blogspot.com/2013/12/linux-out-of-memory-killer-oom.html)  
+[Настраиваем Out-Of-Memory Killer в Linux для PostgreSQL](https://habr.com/ru/company/southbridge/blog/464245/)  
+[Про память: OOM Killer](http://catap.ru/blog/2009/05/03/about-memory-oom-killer/)  
+[How to Configure the Linux Out-of-Memory Killer](https://www.oracle.com/technical-resources/articles/it-infrastructure/dev-oom-killer.html)
 
 ## **task 8:**
 Сделать задание 5, используя контрольные группы и параметр cpushares - Запустить два процесса, которые потребляют все время процессора таким образом, чтобы одному из них ядро давала больше процессорного времени
@@ -219,3 +247,6 @@ root@ubuntu-vbox:/home/cbpi/bin# top
 ```
 
 При уменьшении параметра `cpu.shares` уменьшается и процессорное время, выделяемое процессу который был назначен на эту `cgroup`
+
+[Starting a Process in a Control Group](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/starting_a_process)  
+[Assigning Processes to CPU Cores](https://serverfault.com/questions/345687/assigning-processes-to-cpu-cores)  
